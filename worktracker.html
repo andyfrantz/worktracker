@@ -1,0 +1,1811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorkTrack</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+CiAgPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iOCIgZmlsbD0iIzBkMGYxMiIvPgogIDxjaXJjbGUgY3g9IjE2IiBjeT0iMTciIHI9IjEwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMGU1YTAiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxsaW5lIHgxPSIxNiIgeTE9IjE3IiB4Mj0iMTYiIHkyPSIxMCIgc3Ryb2tlPSIjMDBlNWEwIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxsaW5lIHgxPSIxNiIgeTE9IjE3IiB4Mj0iMjEiIHkyPSIyMCIgc3Ryb2tlPSIjMDBlNWEwIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxjaXJjbGUgY3g9IjE2IiBjeT0iMTciIHI9IjEuNSIgZmlsbD0iIzAwZTVhMCIvPgogIDxsaW5lIHgxPSIxMyIgeTE9IjQiIHgyPSIxOSIgeTI9IjQiIHN0cm9rZT0iIzAwZTVhMCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8bGluZSB4MT0iMTYiIHkxPSI0IiB4Mj0iMTYiIHkyPSI3IiBzdHJva2U9IiMwMGU1YTAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+Cjwvc3ZnPg==">
+  <link rel="shortcut icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+CiAgPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iOCIgZmlsbD0iIzBkMGYxMiIvPgogIDxjaXJjbGUgY3g9IjE2IiBjeT0iMTciIHI9IjEwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMGU1YTAiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxsaW5lIHgxPSIxNiIgeTE9IjE3IiB4Mj0iMTYiIHkyPSIxMCIgc3Ryb2tlPSIjMDBlNWEwIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxsaW5lIHgxPSIxNiIgeTE9IjE3IiB4Mj0iMjEiIHkyPSIyMCIgc3Ryb2tlPSIjMDBlNWEwIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxjaXJjbGUgY3g9IjE2IiBjeT0iMTciIHI9IjEuNSIgZmlsbD0iIzAwZTVhMCIvPgogIDxsaW5lIHgxPSIxMyIgeTE9IjQiIHgyPSIxOSIgeTI9IjQiIHN0cm9rZT0iIzAwZTVhMCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8bGluZSB4MT0iMTYiIHkxPSI0IiB4Mj0iMTYiIHkyPSI3IiBzdHJva2U9IiMwMGU1YTAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+Cjwvc3ZnPg==">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f12;
+    --surface: #13161b;
+    --surface2: #1a1e25;
+    --border: #242830;
+    --accent: #00e5a0;
+    --accent2: #0088ff;
+    --warn: #ff6b35;
+    --danger: #ff3b5c;
+    --text: #e8eaf0;
+    --text2: #8892a0;
+    --text3: #4a5568;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* GRID BACKGROUND */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,160,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,160,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  #app { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 24px 20px; }
+
+  /* HEADER */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .logo {
+    font-family: var(--mono);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--text3); }
+  .date-display {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text2);
+    text-align: right;
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 4px;
+  }
+  .tab {
+    flex: 1;
+    padding: 8px 12px;
+    background: transparent;
+    border: none;
+    color: var(--text2);
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.15s;
+  }
+  .tab:hover { color: var(--text); background: var(--surface2); }
+  .tab.active { background: var(--surface2); color: var(--accent); border: 1px solid var(--border); }
+
+  /* PANELS */
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* MAIN TIMER LAYOUT */
+  .tracker-grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 16px;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .card-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 16px;
+  }
+
+  /* BIG TIMER */
+  .timer-main {
+    text-align: center;
+    padding: 32px 20px;
+    margin-bottom: 12px;
+  }
+  .time-display {
+    font-family: var(--mono);
+    font-size: 72px;
+    font-weight: 300;
+    letter-spacing: -3px;
+    line-height: 1;
+    color: var(--text);
+    margin-bottom: 8px;
+    transition: color 0.3s;
+  }
+  .time-display.running { color: var(--accent); }
+  .time-display.paused { color: var(--warn); }
+  .time-display.overtime { color: var(--danger); }
+  .time-display.lunch { color: var(--accent2); }
+
+  .status-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+    background: var(--surface2);
+    color: var(--text3);
+    border: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+  .status-badge.running { background: rgba(0,229,160,0.1); color: var(--accent); border-color: rgba(0,229,160,0.3); }
+  .status-badge.paused { background: rgba(255,107,53,0.1); color: var(--warn); border-color: rgba(255,107,53,0.3); }
+  .status-badge.lunch { background: rgba(0,136,255,0.1); color: var(--accent2); border-color: rgba(0,136,255,0.3); }
+
+  /* PROGRESS BAR */
+  .progress-wrap {
+    margin: 20px 0 24px;
+    position: relative;
+  }
+  .progress-bar {
+    width: 100%;
+    height: 4px;
+    background: var(--surface2);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), #00b377);
+    border-radius: 2px;
+    transition: width 1s linear;
+    max-width: 100%;
+  }
+  .progress-fill.overtime { background: linear-gradient(90deg, var(--danger), #cc2044); }
+  .progress-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 6px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text3);
+  }
+  .remaining-label {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text2);
+    margin-top: 8px;
+  }
+  .remaining-label span { color: var(--accent); }
+  .remaining-label.overtime span { color: var(--danger); }
+
+  /* CONTROL BUTTONS */
+  .controls {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 18px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface2);
+    color: var(--text2);
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn:hover { color: var(--text); border-color: var(--text3); }
+  .btn:active { transform: scale(0.97); }
+  .btn.primary { background: rgba(0,229,160,0.12); color: var(--accent); border-color: rgba(0,229,160,0.35); }
+  .btn.primary:hover { background: rgba(0,229,160,0.2); }
+  .btn.danger { background: rgba(255,59,92,0.1); color: var(--danger); border-color: rgba(255,59,92,0.3); }
+  .btn.danger:hover { background: rgba(255,59,92,0.18); }
+  .btn.warn { background: rgba(255,107,53,0.1); color: var(--warn); border-color: rgba(255,107,53,0.3); }
+  .btn.warn:hover { background: rgba(255,107,53,0.18); }
+  .btn.blue { background: rgba(0,136,255,0.1); color: var(--accent2); border-color: rgba(0,136,255,0.3); }
+  .btn.blue:hover { background: rgba(0,136,255,0.18); }
+  .btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
+  .btn.sm { padding: 6px 12px; font-size: 10px; }
+
+  /* LUNCH COUNTDOWN */
+  .lunch-countdown {
+    display: none;
+    text-align: center;
+    padding: 20px;
+    background: rgba(0,136,255,0.06);
+    border: 1px solid rgba(0,136,255,0.2);
+    border-radius: 8px;
+    margin-bottom: 16px;
+  }
+  .lunch-countdown.active { display: block; }
+  .lunch-time {
+    font-family: var(--mono);
+    font-size: 42px;
+    font-weight: 300;
+    color: var(--accent2);
+    letter-spacing: -2px;
+  }
+  .lunch-label { font-size: 11px; color: var(--text3); font-family: var(--mono); letter-spacing: 1px; text-transform: uppercase; margin-top: 4px; }
+
+  /* ACTIVE TASK */
+  .active-task {
+    display: none;
+    background: rgba(0,229,160,0.05);
+    border: 1px solid rgba(0,229,160,0.2);
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+  .active-task.show { display: block; }
+  .active-task-label { font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+  .active-task-name { font-size: 14px; color: var(--text); font-weight: 500; }
+  .active-task-time { font-family: var(--mono); font-size: 11px; color: var(--text2); margin-top: 4px; }
+
+  /* QUICK TASK */
+  .quick-task {
+    display: none;
+    background: rgba(255,107,53,0.05);
+    border: 1px solid rgba(255,107,53,0.2);
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+  .quick-task.show { display: block; }
+  .quick-task-label { font-family: var(--mono); font-size: 10px; color: var(--warn); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+
+  /* SIDEBAR */
+  .sidebar { display: flex; flex-direction: column; gap: 16px; }
+
+  /* TASK LOG FORM */
+  .form-group { margin-bottom: 12px; }
+  .form-label { font-family: var(--mono); font-size: 10px; color: var(--text3); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; display: block; }
+  .form-input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 13px;
+    padding: 8px 12px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .form-input:focus { border-color: var(--accent); }
+  .form-input::placeholder { color: var(--text3); }
+  textarea.form-input { resize: vertical; min-height: 60px; }
+
+  /* LOG ENTRIES */
+  .log-list { display: flex; flex-direction: column; gap: 8px; max-height: 320px; overflow-y: auto; }
+  .log-list::-webkit-scrollbar { width: 4px; }
+  .log-list::-webkit-scrollbar-track { background: transparent; }
+  .log-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .log-entry {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 12px;
+    position: relative;
+  }
+  .log-entry.active-entry { border-color: rgba(0,229,160,0.3); }
+  .log-entry-title { font-size: 13px; color: var(--text); font-weight: 500; margin-bottom: 3px; }
+  .log-entry-meta { font-family: var(--mono); font-size: 10px; color: var(--text3); display: flex; gap: 12px; flex-wrap: wrap; }
+  .log-entry-meta .tag { color: var(--accent2); }
+  .log-entry-dur { color: var(--accent); }
+  .log-entry-note { font-size: 11px; color: var(--text2); margin-top: 4px; font-style: italic; }
+  .log-entry-del {
+    position: absolute; top: 8px; right: 8px;
+    background: none; border: none; color: var(--text3); cursor: pointer; font-size: 14px; line-height: 1; padding: 2px;
+    opacity: 0; transition: opacity 0.15s;
+  }
+  .log-entry:hover .log-entry-del { opacity: 1; }
+  .log-entry-del:hover { color: var(--danger); }
+
+  /* TODOS */
+  .todo-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .todo-item:last-child { border-bottom: none; }
+  .todo-check {
+    width: 16px; height: 16px; min-width: 16px;
+    border: 1px solid var(--border); border-radius: 3px;
+    background: transparent; cursor: pointer; margin-top: 2px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .todo-check.done { background: var(--accent); border-color: var(--accent); }
+  .todo-check.done::after { content: '✓'; font-size: 10px; color: #000; }
+  .todo-text { flex: 1; }
+  .todo-title { font-size: 13px; color: var(--text); }
+  .todo-title.done { text-decoration: line-through; color: var(--text3); }
+  .todo-due { font-family: var(--mono); font-size: 10px; color: var(--text3); margin-top: 2px; }
+  .todo-due.overdue { color: var(--danger); }
+  .todo-del { background: none; border: none; color: var(--text3); cursor: pointer; font-size: 14px; opacity: 0; transition: opacity 0.15s; padding: 2px; }
+  .todo-item:hover .todo-del { opacity: 1; }
+  .todo-del:hover { color: var(--danger); }
+
+  /* OVERVIEW / HISTORY */
+  .day-block {
+    margin-bottom: 20px;
+  }
+  .day-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 12px;
+  }
+  .day-title { font-family: var(--mono); font-size: 12px; color: var(--text2); }
+  .day-total { font-family: var(--mono); font-size: 12px; }
+  .day-total.over { color: var(--danger); }
+  .day-total.under { color: var(--accent); }
+
+  .history-entry {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+  .history-time { font-family: var(--mono); font-size: 10px; color: var(--text3); min-width: 90px; }
+  .history-title { font-size: 13px; color: var(--text); flex: 1; }
+  .history-dur { font-family: var(--mono); font-size: 11px; color: var(--text2); }
+
+  /* WEEK VIEW */
+  .week-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .week-day {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 8px;
+    text-align: center;
+  }
+  .week-day.today { border-color: rgba(0,229,160,0.4); }
+  .week-day-name { font-family: var(--mono); font-size: 9px; color: var(--text3); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+  .week-day-date { font-family: var(--mono); font-size: 11px; color: var(--text2); margin-bottom: 8px; }
+  .week-day-bar { width: 100%; height: 40px; background: var(--border); border-radius: 3px; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; }
+  .week-day-fill { background: var(--accent); border-radius: 3px; transition: height 0.3s; width: 100%; }
+  .week-day-fill.over { background: var(--danger); }
+  .week-day-hours { font-family: var(--mono); font-size: 10px; color: var(--text2); margin-top: 6px; }
+
+  /* EMPTY STATE */
+  .empty { text-align: center; padding: 30px 20px; color: var(--text3); font-family: var(--mono); font-size: 12px; }
+  .empty-icon { font-size: 28px; margin-bottom: 8px; opacity: 0.4; }
+
+  /* NOTIFICATION */
+  .notif {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text);
+    z-index: 1000;
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    max-width: 280px;
+  }
+  .notif.show { transform: translateY(0); opacity: 1; }
+  .notif.success { border-color: rgba(0,229,160,0.4); color: var(--accent); }
+  .notif.info { border-color: rgba(0,136,255,0.4); color: var(--accent2); }
+
+  /* DIVIDER */
+  .divider { height: 1px; background: var(--border); margin: 16px 0; }
+
+  /* SCROLLBAR GLOBAL */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* SESSION START EDIT */
+  .session-start-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text3);
+  }
+  .session-start-time {
+    color: var(--text2);
+    cursor: pointer;
+    border-bottom: 1px dashed var(--text3);
+    padding-bottom: 1px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .session-start-time:hover { color: var(--accent); border-color: var(--accent); }
+  .edit-icon {
+    cursor: pointer;
+    opacity: 0.4;
+    font-size: 12px;
+    transition: opacity 0.15s;
+  }
+  .edit-icon:hover { opacity: 1; }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(4px);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    min-width: 320px;
+    max-width: 420px;
+    width: 90%;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+    animation: modalIn 0.2s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  @keyframes modalIn { from { transform: scale(0.92) translateY(10px); opacity:0; } to { transform: scale(1) translateY(0); opacity:1; } }
+  .modal-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 20px;
+  }
+  .modal-desc {
+    font-size: 12px;
+    color: var(--text2);
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; }
+  .time-input-row { display: flex; gap: 8px; align-items: center; }
+  .time-input-row .form-input { font-family: var(--mono); }
+
+  /* ANIMATIONS */
+  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
+  .pulsing { animation: pulse 2s ease-in-out infinite; }
+
+  @media (max-width: 800px) {
+    .tracker-grid { grid-template-columns: 1fr; }
+    .week-grid { grid-template-columns: repeat(4, 1fr); }
+    .time-display { font-size: 52px; }
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="logo">work<span>/</span>track</div>
+    <div class="date-display" id="headerDate"></div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('tracker')">⏱ Tracker</button>
+    <button class="tab" onclick="switchTab('today')">📋 Today</button>
+    <button class="tab" onclick="switchTab('week')">📆 Week</button>
+    <button class="tab" onclick="switchTab('todos')">✓ Todos</button>
+  </div>
+
+  <!-- TRACKER TAB -->
+  <div class="panel active" id="panel-tracker">
+    <div class="tracker-grid">
+      <!-- LEFT: Timer -->
+      <div>
+        <div class="card timer-main">
+          <div class="status-badge" id="statusBadge">IDLE</div>
+          <div class="time-display" id="mainTimer">00:00:00</div>
+          <div class="session-start-row" id="sessionStartRow" style="display:none">
+            started at&nbsp;
+            <span class="session-start-time" id="sessionStartDisplay" onclick="openEditSessionModal()" title="Click to adjust start time">—</span>
+            <span class="edit-icon" onclick="openEditSessionModal()" title="Edit start time">✎</span>
+          </div>
+          <div class="progress-wrap">
+            <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+            <div class="progress-labels"><span>00:00</span><span>8h goal</span></div>
+          </div>
+          <div class="remaining-label" id="remainingLabel">8h 00m remaining</div>
+          <br>
+          <div class="controls" id="mainControls">
+            <button class="btn primary" id="btnStart" onclick="startWork()">▶ Start</button>
+            <button class="btn warn" id="btnPause" onclick="pauseWork()" disabled>⏸ Pause</button>
+            <button class="btn blue" id="btnLunch" onclick="startLunch()" disabled>🍽 Lunch</button>
+            <button class="btn danger" id="btnStop" onclick="stopWork()" disabled>■ Stop</button>
+          </div>
+        </div>
+
+        <!-- LUNCH COUNTDOWN -->
+        <div class="lunch-countdown" id="lunchCountdown">
+          <div class="lunch-label">lunch break</div>
+          <div class="lunch-time" id="lunchTimer">30:00</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:4px;font-family:var(--mono)">remaining</div>
+          <br>
+          <button class="btn sm" onclick="endLunch()">↩ End Break Early</button>
+        </div>
+
+        <!-- ACTIVE TASK -->
+        <div class="active-task" id="activeTaskCard">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between">
+            <div class="active-task-label">● active task</div>
+            <button class="btn sm" style="padding:3px 8px;font-size:10px;opacity:0.7" onclick="openEditActiveTask()" title="Edit active task">✎ edit</button>
+          </div>
+          <div class="active-task-name" id="activeTaskName">—</div>
+          <div style="font-size:11px;color:var(--text3);font-style:italic;margin-top:3px;display:none" id="activeTaskNote"></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:4px">
+            <div class="active-task-time" id="activeTaskTime">0:00</div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--accent2)" id="activeTaskCat"></div>
+          </div>
+          <div style="margin-top:10px;display:flex;gap:8px;">
+            <button class="btn sm danger" onclick="finishTask()">✓ Finish Task</button>
+            <button class="btn sm warn" onclick="openQuickTask()">⚡ Quick Task</button>
+          </div>
+        </div>
+
+        <!-- QUICK TASK -->
+        <div class="quick-task" id="quickTaskCard">
+          <div class="quick-task-label">⚡ quick task (pauses main)</div>
+          <div class="form-group">
+            <input class="form-input" id="quickTaskInput" placeholder="What are you doing quickly?" />
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn sm warn" onclick="startQuickTask()">▶ Start</button>
+            <button class="btn sm" id="btnFinishQuick" onclick="finishQuickTask()" style="display:none">✓ Done</button>
+            <button class="btn sm" onclick="cancelQuickTask()">✕ Cancel</button>
+          </div>
+          <div id="quickTaskActive" style="display:none;margin-top:10px;">
+            <div style="font-family:var(--mono);font-size:11px;color:var(--warn)">Running: <span id="quickTaskName2">—</span></div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-top:2px;" id="quickTaskTime">0:00</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Sidebar -->
+      <div class="sidebar">
+        <!-- START TASK -->
+        <div class="card">
+          <div class="card-title">Log Task</div>
+          <div class="form-group">
+            <label class="form-label">Task name</label>
+            <input class="form-input" id="taskNameInput" placeholder="What are you working on?" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Notes (optional)</label>
+            <textarea class="form-input" id="taskNoteInput" placeholder="Details, links, context..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <input class="form-input" id="taskCatInput" placeholder="e.g. dev, meeting, review" />
+          </div>
+          <button class="btn primary" style="width:100%" onclick="startTask()">▶ Start Task</button>
+        </div>
+
+        <!-- TODAY'S LOG (sidebar mini) -->
+        <div class="card">
+          <div class="card-title">Today's Log</div>
+          <div class="log-list" id="sidebarLogList">
+            <div class="empty"><div class="empty-icon">📝</div>No entries yet</div>
+          </div>
+        </div>
+
+        <!-- DUE TODOS PANEL -->
+        <div class="card" id="sidebarTodosCard">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+            <div class="card-title" style="margin-bottom:0">Due Todos</div>
+            <span style="font-family:var(--mono);font-size:10px;color:var(--text3)" id="sidebarTodosCount"></span>
+          </div>
+          <div id="sidebarTodosList">
+            <div class="empty" style="padding:12px 0"><div class="empty-icon" style="font-size:20px">✓</div>Nothing due</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TODAY TAB -->
+  <div class="panel" id="panel-today">
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+        <div>
+          <div class="card-title" style="margin-bottom:4px">Today's Breakdown</div>
+          <div style="font-family:var(--mono);font-size:11px;color:var(--text3)" id="todayDate2"></div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-family:var(--mono);font-size:24px;color:var(--accent)" id="todayTotal">0h 00m</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--text3)" id="todayStatus">of 8h goal</div>
+        </div>
+      </div>
+      <div id="todayLogFull">
+        <div class="empty"><div class="empty-icon">📝</div>No entries today</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEK TAB -->
+  <div class="panel" id="panel-week">
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title">This Week</div>
+      <div class="week-grid" id="weekGrid"></div>
+      <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--text3);padding-top:8px;border-top:1px solid var(--border)">
+        <span>Week total: <span id="weekTotal" style="color:var(--text)">0h 00m</span></span>
+        <span>Avg/day: <span id="weekAvg" style="color:var(--text)">0h 00m</span></span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Past Days</div>
+      <div id="historyView">
+        <div class="empty"><div class="empty-icon">📆</div>No history yet</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TODOS TAB -->
+  <div class="panel" id="panel-todos">
+    <div style="display:grid;grid-template-columns:1fr 320px;gap:16px">
+      <div class="card">
+        <div class="card-title">Open Todos</div>
+        <div id="todoList">
+          <div class="empty"><div class="empty-icon">✓</div>All clear!</div>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-title">Add Todo</div>
+          <div class="form-group">
+            <label class="form-label">Title</label>
+            <input class="form-input" id="todoTitle" placeholder="What needs doing?" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Due date (optional)</label>
+            <input class="form-input" id="todoDue" type="date" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Notes</label>
+            <input class="form-input" id="todoNote" placeholder="Context..." />
+          </div>
+          <button class="btn primary" style="width:100%" onclick="addTodo()">+ Add Todo</button>
+        </div>
+        <div class="card">
+          <div class="card-title">Completed</div>
+          <div id="todoDoneList">
+            <div class="empty" style="padding:16px"><div class="empty-icon">✓</div>Nothing done yet</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- EDIT SESSION START MODAL -->
+<div class="modal-overlay" id="modalEditSession">
+  <div class="modal">
+    <div class="modal-title">✎ Adjust Session Start Time</div>
+    <div class="modal-desc">Set the actual time you started working today. This recalculates your total worked time accordingly.</div>
+    <div class="form-group">
+      <label class="form-label">Started at</label>
+      <input class="form-input" type="time" id="editSessionTimeInput" />
+    </div>
+    <div id="editSessionPreview" style="font-family:var(--mono);font-size:11px;color:var(--accent);margin-top:4px;"></div>
+    <div class="modal-actions">
+      <button class="btn sm" onclick="closeEditSessionModal()">Cancel</button>
+      <button class="btn sm primary" onclick="applyEditSession()">✓ Apply</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT LOG ENTRY MODAL -->
+<div class="modal-overlay" id="modalEditLog">
+  <div class="modal">
+    <div class="modal-title">✎ Edit Log Entry</div>
+    <div class="form-group">
+      <label class="form-label">Task name</label>
+      <input class="form-input" id="editLogName" />
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div class="form-group">
+        <label class="form-label">Start time</label>
+        <input class="form-input" type="time" id="editLogStart" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">End time</label>
+        <input class="form-input" type="time" id="editLogEnd" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Category</label>
+      <input class="form-input" id="editLogCat" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Notes</label>
+      <textarea class="form-input" id="editLogNote"></textarea>
+    </div>
+    <div id="editLogPreview" style="font-family:var(--mono);font-size:11px;color:var(--accent);margin-top:4px;"></div>
+    <div class="modal-actions">
+      <button class="btn sm" onclick="closeEditLogModal()">Cancel</button>
+      <button class="btn sm primary" onclick="applyEditLog()">✓ Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT ACTIVE TASK MODAL -->
+<div class="modal-overlay" id="modalEditActiveTask">
+  <div class="modal">
+    <div class="modal-title">✎ Edit Running Task</div>
+    <div class="modal-desc">Changes take effect immediately. The task timer keeps running.</div>
+    <div class="form-group">
+      <label class="form-label">Task name</label>
+      <input class="form-input" id="editActiveTaskName" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Category</label>
+      <input class="form-input" id="editActiveTaskCat" placeholder="e.g. dev, meeting, review" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Notes</label>
+      <textarea class="form-input" id="editActiveTaskNote" placeholder="Details, links, context..."></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Started at</label>
+      <input class="form-input" type="time" id="editActiveTaskStart" />
+    </div>
+    <div id="editActivePreview" style="font-family:var(--mono);font-size:11px;color:var(--accent);margin-top:4px;"></div>
+    <div class="modal-actions">
+      <button class="btn sm" onclick="closeEditActiveTask()">Cancel</button>
+      <button class="btn sm primary" onclick="applyEditActiveTask()">✓ Apply</button>
+    </div>
+  </div>
+</div>
+
+<!-- NOTIFICATION -->
+<div class="notif" id="notif"></div>
+
+<script>
+// ─── STATE ───────────────────────────────────────────────────────────────────
+let state = {
+  status: 'idle', // idle | running | paused | lunch
+  workStart: null,   // timestamp when day started
+  totalWorked: 0,    // ms worked today (accumulated)
+  sessionStart: null, // when current running segment started
+  lunchStart: null,
+  lunchDuration: 30 * 60 * 1000,
+  activeTask: null,   // {id, name, note, cat, start}
+  quickTask: null,    // {name, start, mainPaused}
+  quickTaskInputVisible: false,
+};
+
+let db;
+let tickInterval = null;
+
+// ─── DB INIT (IndexedDB) ──────────────────────────────────────────────────────
+function initDB() {
+  return new Promise((res, rej) => {
+    const req = indexedDB.open('worktrack', 2);
+    req.onupgradeneeded = e => {
+      const d = e.target.result;
+      if (!d.objectStoreNames.contains('logs')) {
+        const s = d.createObjectStore('logs', {keyPath:'id'});
+        s.createIndex('date','date',{unique:false});
+      }
+      if (!d.objectStoreNames.contains('todos')) {
+        d.createObjectStore('todos', {keyPath:'id'});
+      }
+      if (!d.objectStoreNames.contains('meta')) {
+        d.createObjectStore('meta', {keyPath:'key'});
+      }
+    };
+    req.onsuccess = e => { db = e.target.result; res(); };
+    req.onerror = rej;
+  });
+}
+
+function dbPut(store, obj) {
+  return new Promise((res,rej)=>{
+    const tx = db.transaction(store,'readwrite');
+    tx.objectStore(store).put(obj).onsuccess = ()=>res();
+    tx.onerror = rej;
+  });
+}
+function dbGet(store, key) {
+  return new Promise((res,rej)=>{
+    const tx = db.transaction(store,'readonly');
+    const req = tx.objectStore(store).get(key);
+    req.onsuccess = ()=>res(req.result);
+    req.onerror = rej;
+  });
+}
+function dbGetAll(store) {
+  return new Promise((res,rej)=>{
+    const tx = db.transaction(store,'readonly');
+    const req = tx.objectStore(store).getAll();
+    req.onsuccess = ()=>res(req.result);
+    req.onerror = rej;
+  });
+}
+function dbDelete(store, key) {
+  return new Promise((res,rej)=>{
+    const tx = db.transaction(store,'readwrite');
+    tx.objectStore(store).delete(key).onsuccess = ()=>res();
+    tx.onerror = rej;
+  });
+}
+function dbGetByIndex(store, index, val) {
+  return new Promise((res,rej)=>{
+    const tx = db.transaction(store,'readonly');
+    const req = tx.objectStore(store).index(index).getAll(val);
+    req.onsuccess = ()=>res(req.result);
+    req.onerror = rej;
+  });
+}
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+function todayKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function fmtMs(ms) {
+  if (ms < 0) ms = 0;
+  const s = Math.floor(ms/1000);
+  const h = Math.floor(s/3600);
+  const m = Math.floor((s%3600)/60);
+  const sec = s%60;
+  return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+}
+function fmtMsShort(ms) {
+  if (ms < 0) ms = 0;
+  const s = Math.floor(ms/1000);
+  const h = Math.floor(s/3600);
+  const m = Math.floor((s%3600)/60);
+  if (h > 0) return `${h}h ${String(m).padStart(2,'0')}m`;
+  return `${m}m`;
+}
+function fmtTime(ts) {
+  if (!ts) return '—';
+  const d = new Date(ts);
+  return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+}
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+function notify(msg, type='success') {
+  const n = document.getElementById('notif');
+  n.textContent = msg;
+  n.className = `notif show ${type}`;
+  setTimeout(()=>{ n.className='notif'; }, 2800);
+}
+
+// ─── TIMER TICK ───────────────────────────────────────────────────────────────
+function getCurrentWorked() {
+  let total = state.totalWorked;
+  if (state.status === 'running' && state.sessionStart) {
+    total += Date.now() - state.sessionStart;
+  }
+  return total;
+}
+
+function tick() {
+  const worked = getCurrentWorked();
+  const goal = 8 * 3600 * 1000;
+  const el = document.getElementById('mainTimer');
+  const badge = document.getElementById('statusBadge');
+  const fill = document.getElementById('progressFill');
+  const rem = document.getElementById('remainingLabel');
+
+  el.textContent = fmtMs(worked);
+
+  // Status
+  if (state.status === 'running') {
+    el.className = 'time-display running';
+    badge.className = 'status-badge running';
+    badge.textContent = 'RUNNING';
+  } else if (state.status === 'paused') {
+    el.className = 'time-display paused';
+    badge.className = 'status-badge paused';
+    badge.textContent = 'PAUSED';
+  } else if (state.status === 'lunch') {
+    el.className = 'time-display lunch';
+    badge.className = 'status-badge lunch';
+    badge.textContent = 'LUNCH';
+  } else {
+    el.className = 'time-display';
+    badge.className = 'status-badge';
+    badge.textContent = 'IDLE';
+  }
+
+  // Progress
+  const pct = Math.min(worked / goal * 100, 100);
+  fill.style.width = pct + '%';
+  if (worked > goal) {
+    fill.classList.add('overtime');
+    el.classList.add('overtime');
+    const over = worked - goal;
+    rem.innerHTML = `<span class="overtime">+${fmtMsShort(over)} overtime</span>`;
+    rem.className = 'remaining-label overtime';
+  } else {
+    fill.classList.remove('overtime');
+    const left = goal - worked;
+    rem.innerHTML = `<span>${fmtMsShort(left)}</span> remaining`;
+    rem.className = 'remaining-label';
+  }
+
+  // Lunch countdown
+  if (state.status === 'lunch' && state.lunchStart) {
+    const elapsed = Date.now() - state.lunchStart;
+    const left = state.lunchDuration - elapsed;
+    if (left <= 0) {
+      endLunch();
+    } else {
+      const m = Math.floor(left/60000);
+      const s = Math.floor((left%60000)/1000);
+      document.getElementById('lunchTimer').textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    }
+  }
+
+  // Active task time
+  if (state.activeTask && state.status === 'running') {
+    const taskElapsed = Date.now() - state.activeTask.start;
+    document.getElementById('activeTaskTime').textContent = fmtMsShort(taskElapsed);
+  }
+
+  // Quick task time
+  if (state.quickTask) {
+    const qElapsed = Date.now() - state.quickTask.start;
+    document.getElementById('quickTaskTime').textContent = fmtMsShort(qElapsed);
+  }
+}
+
+// ─── WORK CONTROLS ───────────────────────────────────────────────────────────
+async function startWork() {
+  if (state.status !== 'idle') return;
+  state.status = 'running';
+  state.sessionStart = Date.now();
+  if (!state.workStart) state.workStart = Date.now();
+  updateButtons();
+  updateSessionStartDisplay();
+  await saveState();
+  notify('Work session started');
+}
+
+async function pauseWork() {
+  if (state.status !== 'running') return;
+  state.totalWorked += Date.now() - state.sessionStart;
+  state.sessionStart = null;
+  state.status = 'paused';
+  updateButtons();
+  await saveState();
+  notify('Session paused', 'info');
+}
+
+async function resumeWork() {
+  if (state.status !== 'paused') return;
+  state.status = 'running';
+  state.sessionStart = Date.now();
+  updateButtons();
+  await saveState();
+  notify('Session resumed');
+}
+
+async function stopWork() {
+  if (state.status === 'idle') return;
+  if (state.status === 'running') {
+    state.totalWorked += Date.now() - state.sessionStart;
+  }
+  // Finish active task if any
+  if (state.activeTask) await finishTask(true);
+  if (state.quickTask) await finishQuickTask(true);
+
+  // Save day summary
+  const key = todayKey();
+  const existing = await dbGet('meta', `day:${key}`) || {key:`day:${key}`,worked:0};
+  existing.worked = state.totalWorked;
+  existing.date = key;
+  await dbPut('meta', existing);
+
+  state.status = 'idle';
+  state.sessionStart = null;
+  state.workStart = null;
+  state.totalWorked = 0;
+  state.activeTask = null;
+  state.quickTask = null;
+  updateButtons();
+  updateActiveTaskUI();
+  updateQuickTaskUI();
+  updateSessionStartDisplay();
+  await saveState();
+  renderSidebarLog();
+  notify('Work day stopped & saved');
+}
+
+async function startLunch() {
+  if (state.status !== 'running') return;
+  state.totalWorked += Date.now() - state.sessionStart;
+  state.sessionStart = null;
+  state.status = 'lunch';
+  state.lunchStart = Date.now();
+  document.getElementById('lunchCountdown').classList.add('active');
+  updateButtons();
+  await saveState();
+  notify('Lunch break started — 30 min', 'info');
+}
+
+async function endLunch() {
+  if (state.status !== 'lunch') return;
+  state.status = 'running';
+  state.sessionStart = Date.now();
+  state.lunchStart = null;
+  document.getElementById('lunchCountdown').classList.remove('active');
+  updateButtons();
+  await saveState();
+  notify('Back to work!');
+}
+
+function updateButtons() {
+  const idle = state.status === 'idle';
+  const running = state.status === 'running';
+  const paused = state.status === 'paused';
+  const lunch = state.status === 'lunch';
+
+  document.getElementById('btnStart').textContent = paused ? '▶ Resume' : '▶ Start';
+  document.getElementById('btnStart').onclick = paused ? resumeWork : startWork;
+  document.getElementById('btnStart').disabled = running || lunch;
+  document.getElementById('btnPause').disabled = !running;
+  document.getElementById('btnLunch').disabled = !running;
+  document.getElementById('btnStop').disabled = idle;
+}
+
+// ─── TASKS ────────────────────────────────────────────────────────────────────
+async function startTask() {
+  const name = document.getElementById('taskNameInput').value.trim();
+  if (!name) { notify('Enter a task name first', 'info'); return; }
+  if (state.status === 'idle') { notify('Start the timer first', 'info'); return; }
+
+  // Finish previous task if any
+  if (state.activeTask) await finishTask(true);
+
+  state.activeTask = {
+    id: uid(),
+    name,
+    note: document.getElementById('taskNoteInput').value.trim(),
+    cat: document.getElementById('taskCatInput').value.trim() || 'general',
+    start: Date.now(),
+    date: todayKey(),
+  };
+
+  document.getElementById('taskNameInput').value = '';
+  document.getElementById('taskNoteInput').value = '';
+  document.getElementById('taskCatInput').value = '';
+
+  updateActiveTaskUI();
+  await saveState();
+  notify(`Task started: ${name}`);
+}
+
+async function finishTask(silent = false) {
+  if (!state.activeTask) return;
+  const task = state.activeTask;
+  const duration = Date.now() - task.start;
+  const log = {
+    id: task.id,
+    date: task.date,
+    name: task.name,
+    note: task.note,
+    cat: task.cat,
+    start: task.start,
+    end: Date.now(),
+    duration,
+    type: 'task',
+  };
+  await dbPut('logs', log);
+  state.activeTask = null;
+  updateActiveTaskUI();
+  await saveState();
+  renderSidebarLog();
+  if (!silent) notify(`✓ Finished: ${task.name} (${fmtMsShort(duration)})`);
+}
+
+function updateActiveTaskUI() {
+  const card = document.getElementById('activeTaskCard');
+  if (state.activeTask) {
+    card.classList.add('show');
+    document.getElementById('activeTaskName').textContent = state.activeTask.name;
+    const noteEl = document.getElementById('activeTaskNote');
+    if (state.activeTask.note) {
+      noteEl.textContent = state.activeTask.note;
+      noteEl.style.display = 'block';
+    } else {
+      noteEl.style.display = 'none';
+    }
+    const catEl = document.getElementById('activeTaskCat');
+    catEl.textContent = state.activeTask.cat ? `#${state.activeTask.cat}` : '';
+  } else {
+    card.classList.remove('show');
+  }
+}
+
+// ─── QUICK TASK ───────────────────────────────────────────────────────────────
+function openQuickTask() {
+  if (state.status !== 'running') { notify('Timer must be running', 'info'); return; }
+  state.quickTaskInputVisible = true;
+  document.getElementById('quickTaskCard').classList.add('show');
+  document.getElementById('quickTaskInput').focus();
+  document.getElementById('btnFinishQuick').style.display = 'none';
+  document.getElementById('quickTaskActive').style.display = 'none';
+}
+
+async function startQuickTask() {
+  const name = document.getElementById('quickTaskInput').value.trim();
+  if (!name) { notify('Enter a quick task name', 'info'); return; }
+  if (state.quickTask) return;
+
+  // Pause active task timer (just note the start offset)
+  state.quickTask = { name, start: Date.now(), mainPausedAt: Date.now() };
+
+  document.getElementById('quickTaskInput').value = '';
+  document.getElementById('btnFinishQuick').style.display = 'inline-flex';
+  document.getElementById('quickTaskActive').style.display = 'block';
+  document.getElementById('quickTaskName2').textContent = name;
+
+  await saveState();
+  notify(`⚡ Quick task: ${name}`, 'info');
+}
+
+async function finishQuickTask(silent = false) {
+  if (!state.quickTask) return;
+  const qt = state.quickTask;
+  const duration = Date.now() - qt.start;
+  const log = {
+    id: uid(),
+    date: todayKey(),
+    name: qt.name,
+    note: '',
+    cat: 'quick',
+    start: qt.start,
+    end: Date.now(),
+    duration,
+    type: 'quick',
+  };
+  await dbPut('logs', log);
+  state.quickTask = null;
+  document.getElementById('quickTaskCard').classList.remove('show');
+  document.getElementById('btnFinishQuick').style.display = 'none';
+  document.getElementById('quickTaskActive').style.display = 'none';
+  await saveState();
+  renderSidebarLog();
+  if (!silent) notify(`⚡ Done: ${qt.name} (${fmtMsShort(duration)})`);
+}
+
+function cancelQuickTask() {
+  state.quickTask = null;
+  document.getElementById('quickTaskCard').classList.remove('show');
+  document.getElementById('quickTaskInput').value = '';
+}
+
+// ─── LOG RENDER ───────────────────────────────────────────────────────────────
+async function renderSidebarLog() {
+  renderSidebarTodos();
+  const entries = await dbGetByIndex('logs','date',todayKey());
+  entries.sort((a,b)=>b.start-a.start);
+  const container = document.getElementById('sidebarLogList');
+  if (!entries.length) {
+    container.innerHTML = '<div class="empty"><div class="empty-icon">📝</div>No entries yet</div>';
+    return;
+  }
+  container.innerHTML = entries.map(e => `
+    <div class="log-entry ${state.activeTask?.id === e.id ? 'active-entry':''}">
+      <div class="log-entry-title">${e.name}</div>
+      <div class="log-entry-meta">
+        <span>${fmtTime(e.start)} – ${fmtTime(e.end)}</span>
+        <span class="log-entry-dur">${fmtMsShort(e.duration)}</span>
+        <span class="tag">#${e.cat}</span>
+      </div>
+      ${e.note ? `<div class="log-entry-note">${e.note}</div>` : ''}
+      <button class="log-entry-del" onclick="deleteLog('${e.id}')">✕</button>
+      <button class="log-entry-del" style="right:28px" onclick="openEditLogModal('${e.id}')" title="Edit entry">✎</button>
+    </div>
+  `).join('');
+}
+
+async function deleteLog(id) {
+  await dbDelete('logs', id);
+  renderSidebarLog();
+  if (document.getElementById('panel-today').classList.contains('active')) renderToday();
+}
+
+// ─── TODAY TAB ────────────────────────────────────────────────────────────────
+async function renderToday() {
+  const entries = await dbGetByIndex('logs','date',todayKey());
+  entries.sort((a,b)=>a.start-b.start);
+
+  const d = new Date();
+  document.getElementById('todayDate2').textContent = d.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+  const totalMs = entries.reduce((s,e)=>s+e.duration,0) + getCurrentWorked();
+  document.getElementById('todayTotal').textContent = fmtMsShort(totalMs);
+  const goal = 8*3600*1000;
+  if (totalMs >= goal) {
+    const over = totalMs - goal;
+    document.getElementById('todayStatus').textContent = `+${fmtMsShort(over)} overtime`;
+    document.getElementById('todayTotal').style.color = 'var(--danger)';
+  } else {
+    document.getElementById('todayStatus').textContent = 'of 8h goal';
+    document.getElementById('todayTotal').style.color = 'var(--accent)';
+  }
+
+  const container = document.getElementById('todayLogFull');
+  if (!entries.length) {
+    container.innerHTML = '<div class="empty"><div class="empty-icon">📝</div>No entries today</div>';
+    return;
+  }
+  container.innerHTML = entries.map(e=>`
+    <div class="history-entry">
+      <div class="history-time">${fmtTime(e.start)} – ${fmtTime(e.end)}</div>
+      <div>
+        <div class="history-title">${e.name}</div>
+        ${e.note ? `<div style="font-size:11px;color:var(--text3);font-style:italic;margin-top:2px">${e.note}</div>`:''}
+      </div>
+      <div style="text-align:right">
+        <div class="history-dur">${fmtMsShort(e.duration)}</div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--accent2)">#${e.cat}</div>
+      </div>
+      <button class="btn sm" onclick="openEditLogModal('${e.id}')" style="padding:4px 8px;font-size:10px">✎</button>
+      <button class="log-entry-del" style="position:static;opacity:1" onclick="deleteLog('${e.id}')">✕</button>
+    </div>
+  `).join('');
+}
+
+// ─── WEEK TAB ─────────────────────────────────────────────────────────────────
+async function renderWeek() {
+  const today = new Date();
+  const dow = today.getDay(); // 0=sun
+  const monday = new Date(today);
+  monday.setDate(today.getDate() - (dow === 0 ? 6 : dow - 1));
+
+  const allLogs = await dbGetAll('logs');
+  const allMeta = await dbGetAll('meta');
+
+  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  let weekTotalMs = 0;
+  let workingDays = 0;
+  let weekHtml = '';
+
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    const isToday = key === todayKey();
+
+    const dayLogs = allLogs.filter(l=>l.date===key);
+    let ms = dayLogs.reduce((s,e)=>s+e.duration,0);
+    if (isToday) ms += getCurrentWorked();
+
+    // Also check saved day totals
+    const saved = allMeta.find(m=>m.key===`day:${key}`);
+    if (saved && !isToday) ms = Math.max(ms, saved.worked||0);
+
+    if (ms > 0) workingDays++;
+    weekTotalMs += ms;
+
+    const goal = 8*3600*1000;
+    const pct = Math.min(ms/goal*100, 100);
+    const isOver = ms > goal;
+
+    weekHtml += `
+      <div class="week-day ${isToday?'today':''}">
+        <div class="week-day-name">${days[i]}</div>
+        <div class="week-day-date">${d.getDate()}</div>
+        <div class="week-day-bar">
+          <div class="week-day-fill ${isOver?'over':''}" style="height:${pct}%"></div>
+        </div>
+        <div class="week-day-hours">${ms>0?fmtMsShort(ms):'—'}</div>
+      </div>
+    `;
+  }
+
+  document.getElementById('weekGrid').innerHTML = weekHtml;
+  document.getElementById('weekTotal').textContent = fmtMsShort(weekTotalMs);
+  document.getElementById('weekAvg').textContent = workingDays > 0 ? fmtMsShort(weekTotalMs/workingDays) : '—';
+
+  // History: past days (non-today)
+  const dateKeys = [...new Set(allLogs.map(l=>l.date))].filter(k=>k!==todayKey()).sort().reverse();
+  const histContainer = document.getElementById('historyView');
+  if (!dateKeys.length) {
+    histContainer.innerHTML = '<div class="empty"><div class="empty-icon">📆</div>No history yet</div>';
+    return;
+  }
+
+  let histHtml = '';
+  for (const dk of dateKeys.slice(0,14)) {
+    const dayLogs = allLogs.filter(l=>l.date===dk).sort((a,b)=>a.start-b.start);
+    const dayMs = dayLogs.reduce((s,e)=>s+e.duration,0);
+    const [y,mo,day] = dk.split('-').map(Number);
+    const label = new Date(y,mo-1,day).toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+    const isOver = dayMs > 8*3600*1000;
+    histHtml += `
+      <div class="day-block">
+        <div class="day-header">
+          <div class="day-title">${label}</div>
+          <div class="day-total ${isOver?'over':'under'}">${fmtMsShort(dayMs)}</div>
+        </div>
+        ${dayLogs.map(e=>`
+          <div class="history-entry">
+            <div class="history-time">${fmtTime(e.start)} – ${fmtTime(e.end)}</div>
+            <div class="history-title">${e.name}</div>
+            <div class="history-dur">${fmtMsShort(e.duration)}</div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+  histContainer.innerHTML = histHtml;
+}
+
+// ─── TODOS ────────────────────────────────────────────────────────────────────
+async function addTodo() {
+  const title = document.getElementById('todoTitle').value.trim();
+  if (!title) { notify('Enter a todo title', 'info'); return; }
+  const todo = {
+    id: uid(),
+    title,
+    note: document.getElementById('todoNote').value.trim(),
+    due: document.getElementById('todoDue').value || null,
+    done: false,
+    created: Date.now(),
+  };
+  await dbPut('todos', todo);
+  document.getElementById('todoTitle').value = '';
+  document.getElementById('todoNote').value = '';
+  document.getElementById('todoDue').value = '';
+  renderTodos();
+  notify(`Todo added: ${title}`);
+}
+
+async function toggleTodo(id) {
+  const todo = await dbGet('todos', id);
+  if (!todo) return;
+  todo.done = !todo.done;
+  await dbPut('todos', todo);
+  renderTodos();
+}
+
+async function deleteTodo(id) {
+  await dbDelete('todos', id);
+  renderTodos();
+}
+
+async function renderTodos() {
+  const todos = await dbGetAll('todos');
+  const open = todos.filter(t=>!t.done).sort((a,b)=>{
+    if (a.due && b.due) return a.due.localeCompare(b.due);
+    if (a.due) return -1;
+    if (b.due) return 1;
+    return a.created - b.created;
+  });
+  const done = todos.filter(t=>t.done).sort((a,b)=>b.created-a.created).slice(0,10);
+
+  const today = todayKey();
+  const renderTodo = t => {
+    const isOverdue = t.due && t.due < today && !t.done;
+    return `
+      <div class="todo-item">
+        <div class="todo-check ${t.done?'done':''}" onclick="toggleTodo('${t.id}')"></div>
+        <div class="todo-text">
+          <div class="todo-title ${t.done?'done':''}">${t.title}</div>
+          ${t.note ? `<div style="font-size:11px;color:var(--text3)">${t.note}</div>` : ''}
+          ${t.due ? `<div class="todo-due ${isOverdue?'overdue':''}">due ${t.due}</div>` : ''}
+        </div>
+        <button class="todo-del" onclick="deleteTodo('${t.id}')">✕</button>
+      </div>
+    `;
+  };
+
+  document.getElementById('todoList').innerHTML = open.length
+    ? open.map(renderTodo).join('')
+    : '<div class="empty"><div class="empty-icon">✓</div>All clear!</div>';
+
+  document.getElementById('todoDoneList').innerHTML = done.length
+    ? done.map(renderTodo).join('')
+    : '<div class="empty" style="padding:16px"><div class="empty-icon" style="font-size:18px">✓</div>Nothing done yet</div>';
+}
+
+// ─── PERSISTENCE ─────────────────────────────────────────────────────────────
+async function saveState() {
+  await dbPut('meta', { key: 'state', ...state });
+}
+
+async function loadState() {
+  const saved = await dbGet('meta', 'state');
+  if (!saved) return;
+  const { key, ...rest } = saved;
+  Object.assign(state, rest);
+  // If running, adjust for time passed
+  if (state.status === 'running' && state.sessionStart) {
+    // Keep session going — sessionStart is still valid
+  }
+  updateButtons();
+  updateActiveTaskUI();
+  updateSessionStartDisplay();
+  if (state.status === 'lunch') {
+    document.getElementById('lunchCountdown').classList.add('active');
+  }
+  if (state.quickTask) {
+    updateQuickTaskUI();
+  }
+}
+
+function updateQuickTaskUI() {
+  if (state.quickTask) {
+    document.getElementById('quickTaskCard').classList.add('show');
+    document.getElementById('btnFinishQuick').style.display = 'inline-flex';
+    document.getElementById('quickTaskActive').style.display = 'block';
+    document.getElementById('quickTaskName2').textContent = state.quickTask.name;
+  }
+}
+
+// ─── TAB SWITCHING ────────────────────────────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(`panel-${name}`).classList.add('active');
+  event.target.classList.add('active');
+
+  if (name === 'today') renderToday();
+  if (name === 'week') renderWeek();
+  if (name === 'todos') renderTodos();
+}
+
+// ─── HEADER DATE ─────────────────────────────────────────────────────────────
+function updateHeaderDate() {
+  const d = new Date();
+  document.getElementById('headerDate').innerHTML =
+    d.toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'}) +
+    '<br>' + d.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+}
+
+// ─── EDIT ACTIVE TASK ────────────────────────────────────────────────────────
+function openEditActiveTask() {
+  if (!state.activeTask) return;
+  const t = state.activeTask;
+  document.getElementById('editActiveTaskName').value = t.name;
+  document.getElementById('editActiveTaskCat').value = t.cat || '';
+  document.getElementById('editActiveTaskNote').value = t.note || '';
+  const d = new Date(t.start);
+  document.getElementById('editActiveTaskStart').value =
+    `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+  updateEditActivePreview();
+  document.getElementById('modalEditActiveTask').classList.add('open');
+}
+
+function updateEditActivePreview() {
+  const val = document.getElementById('editActiveTaskStart').value;
+  if (!val || !state.activeTask) return;
+  const [h,m] = val.split(':').map(Number);
+  const d = new Date(); d.setHours(h,m,0,0);
+  const diff = Date.now() - d.getTime();
+  const prev = document.getElementById('editActivePreview');
+  if (diff < 0) { prev.textContent = '⚠ Time is in the future'; prev.style.color='var(--warn)'; return; }
+  prev.textContent = `→ Task duration so far: ${fmtMsShort(diff)}`;
+  prev.style.color = 'var(--accent)';
+}
+
+function closeEditActiveTask() {
+  document.getElementById('modalEditActiveTask').classList.remove('open');
+}
+
+async function applyEditActiveTask() {
+  if (!state.activeTask) return;
+  const name = document.getElementById('editActiveTaskName').value.trim();
+  if (!name) { notify('Task name required', 'info'); return; }
+  const val = document.getElementById('editActiveTaskStart').value;
+  if (val) {
+    const [h,m] = val.split(':').map(Number);
+    const d = new Date(); d.setHours(h,m,0,0);
+    if (d.getTime() > Date.now()) { notify('Start time cannot be in the future', 'info'); return; }
+    state.activeTask.start = d.getTime();
+  }
+  state.activeTask.name = name;
+  state.activeTask.cat = document.getElementById('editActiveTaskCat').value.trim() || 'general';
+  state.activeTask.note = document.getElementById('editActiveTaskNote').value.trim();
+  updateActiveTaskUI();
+  await saveState();
+  closeEditActiveTask();
+  notify(`Task updated: ${name}`);
+}
+
+// ─── SIDEBAR TODOS ────────────────────────────────────────────────────────────
+async function renderSidebarTodos() {
+  const todos = await dbGetAll('todos');
+  const today = todayKey();
+  const tomorrow = (() => {
+    const d = new Date(); d.setDate(d.getDate()+1);
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  })();
+
+  const relevant = todos.filter(t => !t.done && t.due && t.due <= tomorrow)
+    .sort((a,b) => a.due.localeCompare(b.due));
+
+  const overdue  = relevant.filter(t => t.due < today);
+  const dueToday = relevant.filter(t => t.due === today);
+  const dueTomorrow = relevant.filter(t => t.due === tomorrow);
+
+  const count = relevant.length;
+  document.getElementById('sidebarTodosCount').textContent = count > 0 ? `${count} item${count>1?'s':''}` : '';
+
+  const container = document.getElementById('sidebarTodosList');
+  if (!relevant.length) {
+    container.innerHTML = '<div class="empty" style="padding:12px 0"><div class="empty-icon" style="font-size:20px">✓</div>Nothing due</div>';
+    return;
+  }
+
+  const renderGroup = (label, color, items) => {
+    if (!items.length) return '';
+    return `
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:${color};margin:10px 0 6px;padding-top:8px;border-top:1px solid var(--border)">${label}</div>
+      ${items.map(t => `
+        <div style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.03)">
+          <div style="width:14px;height:14px;min-width:14px;border:1px solid ${color};border-radius:3px;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:all 0.15s" onclick="sidebarToggleTodo('${t.id}')"></div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:12px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${t.title}">${t.title}</div>
+            ${t.note ? `<div style="font-size:10px;color:var(--text3);margin-top:1px">${t.note}</div>` : ''}
+          </div>
+        </div>
+      `).join('')}
+    `;
+  };
+
+  container.innerHTML =
+    renderGroup('Overdue', 'var(--danger)', overdue) +
+    renderGroup('Today', 'var(--accent)', dueToday) +
+    renderGroup('Tomorrow', 'var(--text3)', dueTomorrow);
+}
+
+async function sidebarToggleTodo(id) {
+  const todo = await dbGet('todos', id);
+  if (!todo) return;
+  todo.done = true;
+  await dbPut('todos', todo);
+  renderSidebarTodos();
+  // also refresh todos tab if open
+  if (document.getElementById('panel-todos').classList.contains('active')) renderTodos();
+  notify(`✓ Done: ${todo.title}`);
+}
+
+// ─── SESSION START DISPLAY ───────────────────────────────────────────────────
+function updateSessionStartDisplay() {
+  const row = document.getElementById('sessionStartRow');
+  const disp = document.getElementById('sessionStartDisplay');
+  if (state.status === 'idle') {
+    row.style.display = 'none';
+    return;
+  }
+  row.style.display = 'flex';
+  const refTime = state.workStart || state.sessionStart;
+  if (refTime) disp.textContent = fmtTime(refTime);
+}
+
+// ─── EDIT SESSION MODAL ───────────────────────────────────────────────────────
+function openEditSessionModal() {
+  if (state.status === 'idle') return;
+  const refTime = state.workStart || state.sessionStart;
+  if (!refTime) return;
+  const d = new Date(refTime);
+  const hh = String(d.getHours()).padStart(2,'0');
+  const mm = String(d.getMinutes()).padStart(2,'0');
+  document.getElementById('editSessionTimeInput').value = `${hh}:${mm}`;
+  updateEditSessionPreview();
+  document.getElementById('modalEditSession').classList.add('open');
+}
+
+function updateEditSessionPreview() {
+  const val = document.getElementById('editSessionTimeInput').value;
+  if (!val) return;
+  const [h, m] = val.split(':').map(Number);
+  const d = new Date();
+  d.setHours(h, m, 0, 0);
+  const now = Date.now();
+  const diff = now - d.getTime();
+  if (diff < 0) {
+    document.getElementById('editSessionPreview').textContent = '⚠ Time is in the future';
+    document.getElementById('editSessionPreview').style.color = 'var(--warn)';
+    return;
+  }
+  document.getElementById('editSessionPreview').textContent = `→ ${fmtMsShort(diff)} total session time`;
+  document.getElementById('editSessionPreview').style.color = 'var(--accent)';
+}
+
+function closeEditSessionModal() {
+  document.getElementById('modalEditSession').classList.remove('open');
+}
+
+async function applyEditSession() {
+  const val = document.getElementById('editSessionTimeInput').value;
+  if (!val) return;
+  const [h, m] = val.split(':').map(Number);
+  const newStart = new Date();
+  newStart.setHours(h, m, 0, 0);
+  const ts = newStart.getTime();
+  if (ts > Date.now()) { notify('Start time cannot be in the future', 'info'); return; }
+
+  // Recalculate: total time = now - newStart, minus any accumulated pauses
+  // We simply set workStart + reset totalWorked to elapsed - current-session-elapsed
+  const totalElapsed = Date.now() - ts;
+  const currentSegment = state.sessionStart ? Date.now() - state.sessionStart : 0;
+  // Preserve paused time: totalWorked stays, but workStart shifts so display is right
+  // Simpler: just set workStart, and recalc totalWorked as totalElapsed - currentSegment
+  state.workStart = ts;
+  // If running, the session segment is still live; adjust totalWorked for the gap
+  if (state.status === 'running' && state.sessionStart) {
+    state.totalWorked = Math.max(0, totalElapsed - currentSegment);
+  } else {
+    state.totalWorked = Math.max(0, totalElapsed);
+  }
+
+  updateSessionStartDisplay();
+  await saveState();
+  closeEditSessionModal();
+  notify(`Session start adjusted to ${fmtTime(ts)}`);
+}
+
+// ─── EDIT LOG MODAL ───────────────────────────────────────────────────────────
+let _editLogId = null;
+
+async function openEditLogModal(id) {
+  const entry = await dbGet('logs', id);
+  if (!entry) return;
+  _editLogId = id;
+  document.getElementById('editLogName').value = entry.name;
+  document.getElementById('editLogCat').value = entry.cat || '';
+  document.getElementById('editLogNote').value = entry.note || '';
+
+  const toTimeStr = ts => {
+    if (!ts) return '';
+    const d = new Date(ts);
+    return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+  };
+  document.getElementById('editLogStart').value = toTimeStr(entry.start);
+  document.getElementById('editLogEnd').value = toTimeStr(entry.end);
+  updateEditLogPreview(entry);
+  document.getElementById('modalEditLog').classList.add('open');
+}
+
+function updateEditLogPreview(entry) {
+  const sVal = document.getElementById('editLogStart').value;
+  const eVal = document.getElementById('editLogEnd').value;
+  if (!sVal || !eVal) return;
+  const base = entry ? new Date(entry.start) : new Date();
+  const makeTs = (val) => {
+    const d = new Date(base);
+    const [h,m] = val.split(':').map(Number);
+    d.setHours(h,m,0,0);
+    return d.getTime();
+  };
+  const diff = makeTs(eVal) - makeTs(sVal);
+  const prev = document.getElementById('editLogPreview');
+  if (diff <= 0) { prev.textContent = '⚠ End must be after start'; prev.style.color='var(--warn)'; return; }
+  prev.textContent = `→ Duration: ${fmtMsShort(diff)}`;
+  prev.style.color = 'var(--accent)';
+}
+
+function closeEditLogModal() {
+  document.getElementById('modalEditLog').classList.remove('open');
+  _editLogId = null;
+}
+
+async function applyEditLog() {
+  if (!_editLogId) return;
+  const entry = await dbGet('logs', _editLogId);
+  if (!entry) return;
+
+  const name = document.getElementById('editLogName').value.trim();
+  const sVal = document.getElementById('editLogStart').value;
+  const eVal = document.getElementById('editLogEnd').value;
+  if (!name || !sVal || !eVal) { notify('Fill in all required fields', 'info'); return; }
+
+  const makeTs = (val, refTs) => {
+    const d = new Date(refTs);
+    const [h,m] = val.split(':').map(Number);
+    d.setHours(h,m,0,0);
+    return d.getTime();
+  };
+
+  const newStart = makeTs(sVal, entry.start);
+  const newEnd = makeTs(eVal, entry.end || entry.start);
+  if (newEnd <= newStart) { notify('End time must be after start', 'info'); return; }
+
+  entry.name = name;
+  entry.cat = document.getElementById('editLogCat').value.trim() || 'general';
+  entry.note = document.getElementById('editLogNote').value.trim();
+  entry.start = newStart;
+  entry.end = newEnd;
+  entry.duration = newEnd - newStart;
+
+  await dbPut('logs', entry);
+  closeEditLogModal();
+  renderSidebarLog();
+  if (document.getElementById('panel-today').classList.contains('active')) renderToday();
+  notify(`Entry updated: ${name}`);
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+async function init() {
+  await initDB();
+  await loadState();
+  await renderSidebarLog();
+  await renderSidebarTodos();
+
+  // Modal live previews
+  document.getElementById('editSessionTimeInput').addEventListener('input', updateEditSessionPreview);
+  document.getElementById('editLogStart').addEventListener('input', ()=>updateEditLogPreview(null));
+  document.getElementById('editLogEnd').addEventListener('input', ()=>updateEditLogPreview(null));
+  // Close modals on overlay click
+  document.getElementById('modalEditSession').addEventListener('click', e=>{ if(e.target===e.currentTarget) closeEditSessionModal(); });
+  document.getElementById('modalEditLog').addEventListener('click', e=>{ if(e.target===e.currentTarget) closeEditLogModal(); });
+  document.getElementById('modalEditActiveTask').addEventListener('click', e=>{ if(e.target===e.currentTarget) closeEditActiveTask(); });
+  document.getElementById('editActiveTaskStart').addEventListener('input', updateEditActivePreview);
+
+  // Header date
+  updateHeaderDate();
+  setInterval(updateHeaderDate, 10000);
+
+  // Main tick
+  tickInterval = setInterval(tick, 1000);
+  tick();
+}
+
+init();
+</script>
+</body>
+</html>
