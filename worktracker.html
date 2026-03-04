@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>
+(function(){
+  var t = localStorage.getItem('worktracker-theme');
+  if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>WorkTrack</title>
@@ -23,6 +29,26 @@
     --text3: #4a5568;
     --mono: 'IBM Plex Mono', monospace;
     --sans: 'IBM Plex Sans', sans-serif;
+    --grid-line: rgba(0,229,160,0.03);
+    --border-subtle: rgba(255,255,255,0.03);
+    --checkmark-on-accent: #000;
+  }
+
+  [data-theme="light"] {
+    --bg: #f4f5f7;
+    --surface: #ffffff;
+    --surface2: #eef0f3;
+    --border: #e0e3e8;
+    --accent: #00b377;
+    --accent2: #0066cc;
+    --warn: #e55a28;
+    --danger: #d32f4f;
+    --text: #1a1d24;
+    --text2: #5a6170;
+    --text3: #8a92a0;
+    --grid-line: rgba(0,0,0,0.06);
+    --border-subtle: rgba(0,0,0,0.06);
+    --checkmark-on-accent: #000;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -41,8 +67,8 @@
     position: fixed;
     inset: 0;
     background-image:
-      linear-gradient(rgba(0,229,160,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,229,160,0.03) 1px, transparent 1px);
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
     background-size: 40px 40px;
     pointer-events: none;
     z-index: 0;
@@ -72,6 +98,46 @@
     font-size: 12px;
     color: var(--text2);
     text-align: right;
+  }
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .theme-switch {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    color: var(--text2);
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+  }
+  .theme-switch:hover {
+    color: var(--text);
+    border-color: var(--text3);
+  }
+  .theme-switch span {
+    padding: 2px;
+    border-radius: 4px;
+    opacity: 0.5;
+  }
+  .theme-switch span.active {
+    opacity: 1;
+    color: var(--accent);
+  }
+
+  .sidebar-todo-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border-subtle);
   }
 
   /* TABS */
@@ -355,7 +421,7 @@
     transition: all 0.15s;
   }
   .todo-check.done { background: var(--accent); border-color: var(--accent); }
-  .todo-check.done::after { content: '✓'; font-size: 10px; color: #000; }
+  .todo-check.done::after { content: '✓'; font-size: 10px; color: var(--checkmark-on-accent); }
   .todo-text { flex: 1; }
   .todo-title { font-size: 13px; color: var(--text); }
   .todo-title.done { text-decoration: line-through; color: var(--text3); }
@@ -387,7 +453,7 @@
     align-items: center;
     gap: 12px;
     padding: 8px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.03);
+    border-bottom: 1px solid var(--border-subtle);
   }
   .history-time { font-family: var(--mono); font-size: 10px; color: var(--text3); min-width: 90px; }
   .history-title { font-size: 13px; color: var(--text); flex: 1; }
@@ -534,7 +600,13 @@
 <div id="app">
   <header>
     <div class="logo">work<span>/</span>track</div>
-    <div class="date-display" id="headerDate"></div>
+    <div class="header-right">
+      <button type="button" class="theme-switch" aria-label="Toggle dark/light theme" onclick="toggleTheme()" title="Toggle theme">
+        <span id="themeDark" class="active" title="Dark mode">&#9790;</span>
+        <span id="themeLight" title="Light mode">&#9728;</span>
+      </button>
+      <div class="date-display" id="headerDate"></div>
+    </div>
   </header>
 
   <div class="tabs">
@@ -1507,6 +1579,29 @@ function switchTab(name) {
   if (name === 'todos') renderTodos();
 }
 
+// ─── THEME ───────────────────────────────────────────────────────────────────
+const THEME_KEY = 'worktracker-theme';
+
+function getTheme() {
+  return document.documentElement.getAttribute('data-theme') || localStorage.getItem(THEME_KEY) || 'dark';
+}
+
+function toggleTheme() {
+  const current = getTheme();
+  const next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem(THEME_KEY, next);
+  document.getElementById('themeDark').classList.toggle('active', next === 'dark');
+  document.getElementById('themeLight').classList.toggle('active', next === 'light');
+}
+
+function applySavedTheme() {
+  const theme = localStorage.getItem(THEME_KEY) || 'dark';
+  document.documentElement.setAttribute('data-theme', theme);
+  document.getElementById('themeDark').classList.toggle('active', theme === 'dark');
+  document.getElementById('themeLight').classList.toggle('active', theme === 'light');
+}
+
 // ─── HEADER DATE ─────────────────────────────────────────────────────────────
 function updateHeaderDate() {
   const d = new Date();
@@ -1595,7 +1690,7 @@ async function renderSidebarTodos() {
     return `
       <div style="font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:${color};margin:10px 0 6px;padding-top:8px;border-top:1px solid var(--border)">${label}</div>
       ${items.map(t => `
-        <div style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.03)">
+        <div class="sidebar-todo-item">
           <div style="width:14px;height:14px;min-width:14px;border:1px solid ${color};border-radius:3px;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:all 0.15s" onclick="sidebarToggleTodo('${t.id}')"></div>
           <div style="flex:1;min-width:0">
             <div style="font-size:12px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${t.title}">${t.title}</div>
@@ -1796,7 +1891,7 @@ async function init() {
   document.getElementById('modalEditActiveTask').addEventListener('click', e=>{ if(e.target===e.currentTarget) closeEditActiveTask(); });
   document.getElementById('editActiveTaskStart').addEventListener('input', updateEditActivePreview);
 
-  // Header date
+  applySavedTheme();
   updateHeaderDate();
   setInterval(updateHeaderDate, 10000);
 

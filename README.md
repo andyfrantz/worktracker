@@ -89,10 +89,10 @@ README.md
 
 - [ ] Configurable daily goal (beyond 8h)
 - [ ] CSV / JSON export
-- [ ] Dark/light theme toggle
 - [ ] Desktop notifications for lunch end
 - [ ] Optional backend sync (SQLite via small local server)
 - [ ] Keyboard shortcuts
+- [x] Dark/light theme toggle
 
 PRs and issues welcome.
 
