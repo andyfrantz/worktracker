@@ -1004,6 +1004,8 @@ let state = {
   pomoBreakMs: 5 * 60 * 1000,
   pomoCurrentPhaseMs: null, // duration of current phase (for resume from paused)
   pomoPausedRemaining: null, // ms left when paused
+  pomoNotified5Min: false,
+  pomoNotified1Min: false,
 };
 
 let db;
@@ -1104,6 +1106,18 @@ function notify(msg, type='success') {
   setTimeout(()=>{ n.className='notif'; }, 2800);
 }
 
+async function desktopNotify(title, body) {
+  if (typeof Notification === 'undefined') return;
+  if (Notification.permission === 'granted') {
+    new Notification(title, { body });
+    return;
+  }
+  if (Notification.permission === 'default') {
+    const p = await Notification.requestPermission();
+    if (p === 'granted') new Notification(title, { body });
+  }
+}
+
 // ─── TIMER TICK ───────────────────────────────────────────────────────────────
 function getCurrentWorked() {
   let total = state.totalWorked;
@@ -1163,6 +1177,7 @@ function tick() {
     const elapsed = Date.now() - state.lunchStart;
     const left = state.lunchDuration - elapsed;
     if (left <= 0) {
+      desktopNotify('Lunch over', 'Back to work!');
       endLunch();
     } else {
       const m = Math.floor(left/60000);
@@ -1197,6 +1212,7 @@ function tick() {
         document.getElementById('pomoCard').classList.remove('focus');
         document.getElementById('pomoCard').classList.add('break');
         updatePomoPhaseLabel();
+        desktopNotify('Break started', 'Time for a break!');
         notify('Time for a break!', 'info');
         saveState();
       } else {
@@ -1208,6 +1224,7 @@ function tick() {
       document.getElementById('pomoActive').style.display = 'none';
       document.getElementById('pomoCard').classList.remove('break', 'paused');
       updatePomoPresetButtons();
+        desktopNotify('Break over', 'Focus timer ready.');
         notify('Break over!');
         saveState();
       }
@@ -1217,6 +1234,17 @@ function tick() {
       document.getElementById('pomoTime').textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
       const pct = (left / duration) * 100;
       document.getElementById('pomoProgressFill').style.width = pct + '%';
+      // Desktop notify: last 5 min / last 1 min of focus (only when focus phase < 10 min)
+      if (state.pomoStatus === 'focus' && state.pomoCurrentPhaseMs < 10 * 60 * 1000) {
+        if (left <= 5 * 60 * 1000 && !state.pomoNotified5Min) {
+          desktopNotify('Last 5 minutes', 'Focus time almost over.');
+          state.pomoNotified5Min = true;
+        }
+        if (left <= 60 * 1000 && !state.pomoNotified1Min) {
+          desktopNotify('Last minute', 'Focus ending soon.');
+          state.pomoNotified1Min = true;
+        }
+      }
     }
   } else if (state.pomoStatus === 'paused' && state.pomoPausedRemaining != null) {
     const left = state.pomoPausedRemaining;
@@ -1264,6 +1292,8 @@ function startPomo() {
   state.pomoStart = Date.now();
   state.pomoCurrentPhaseMs = state.pomoFocusMs;
   state.pomoPausedRemaining = null;
+  state.pomoNotified5Min = false;
+  state.pomoNotified1Min = false;
   document.getElementById('pomoIdle').style.display = 'none';
   document.getElementById('pomoActive').style.display = 'block';
   document.getElementById('pomoCard').classList.add('focus');
@@ -1287,6 +1317,7 @@ function pausePomo() {
   updatePomoPhaseLabel();
   document.getElementById('btnPomoPause').style.display = 'none';
   document.getElementById('btnPomoResume').style.display = 'inline-flex';
+  desktopNotify('Pomo paused', 'Timer paused.');
   saveState();
 }
 
@@ -1444,6 +1475,7 @@ async function startLunch() {
   document.getElementById('lunchCountdown').classList.add('active');
   updateButtons();
   await saveState();
+  desktopNotify('Lunch started', '30 min break.');
   notify('Lunch break started — 30 min', 'info');
 }
 

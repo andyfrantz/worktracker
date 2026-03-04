@@ -27,11 +27,13 @@ Everything runs in a single `worktracker.html` file. Data persists in IndexedDB 
 ### 🍽 Lunch Break
 - One-click 30-minute lunch countdown
 - Auto-resumes your session when the break ends, or skip early
+- Desktop notifications when lunch starts and when lunch is over
 
 ### 🍅 Focus Timer (Pomodoro)
 - Optional focus/break timer on the Tracker tab (independent of the work-day timer)
 - Presets: 25+5, 15+5, 10+15, 45+15 (focus minutes + break minutes)
-- Start, pause, resume, skip phase, or reset; progress bar and notifications when focus or break ends
+- Start, pause, resume, skip phase, or reset; progress bar and desktop notifications when focus or break ends, and when paused
+- For short focus phases (&lt; 10 min), desktop reminders at 5 minutes and 1 minute left
 - Border color reflects state: grey (idle), green (focus), blue (break), orange (paused)
 
 ### 📋 Task Logging
@@ -95,7 +97,7 @@ README.md
 
 - [ ] Configurable daily goal (beyond 8h)
 - [ ] CSV / JSON export
-- [ ] Desktop notifications for lunch end
+- [x] Desktop notifications (lunch start/end, pomo break start/end/paused, last 5/1 min focus)
 - [ ] Optional backend sync (SQLite via small local server)
 - [ ] Keyboard shortcuts
 - [x] Dark/light theme toggle
