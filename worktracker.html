@@ -329,6 +329,59 @@
   }
   .lunch-label { font-size: 11px; color: var(--text3); font-family: var(--mono); letter-spacing: 1px; text-transform: uppercase; margin-top: 4px; }
 
+  /* POMODORO */
+  .pomo-timer {
+    text-align: center;
+    padding: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 16px;
+  }
+  .pomo-timer.focus { border-color: rgba(0,229,160,0.5); }
+  .pomo-timer.break { border-color: rgba(0,136,255,0.5); }
+  .pomo-timer.paused { border-color: rgba(255,107,53,0.5); }
+  .pomo-label, .pomo-phase-label {
+    font-size: 11px;
+    color: var(--text3);
+    font-family: var(--mono);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .pomo-timer .pomo-phase-label { color: var(--accent); }
+  .pomo-timer.break .pomo-phase-label { color: var(--accent2); }
+  .pomo-timer.paused .pomo-phase-label { color: var(--warn); }
+  .pomo-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+  .pomo-preset {
+    padding: 6px 12px;
+    font-family: var(--mono);
+    font-size: 11px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text2);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .pomo-preset:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .pomo-preset.active {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .pomo-timer.break .progress-fill { background: linear-gradient(90deg, var(--accent2), #0066b3); }
+  .pomo-timer.paused .progress-fill { background: linear-gradient(90deg, var(--warn), #e55a28); }
+  .pomo-progress { margin: 8px 0 4px; max-width: 280px; margin-left: auto; margin-right: auto; }
+
   /* ACTIVE TASK */
   .active-task {
     display: none;
@@ -652,6 +705,34 @@
           <button class="btn sm" onclick="endLunch()">↩ End Break Early</button>
         </div>
 
+        <!-- POMODORO -->
+        <div class="pomo-timer" id="pomoCard">
+          <div class="pomo-idle" id="pomoIdle">
+            <div class="pomo-label">Focus timer</div>
+            <div class="pomo-presets">
+              <button type="button" class="pomo-preset" data-focus="25" data-break="5" onclick="setPomoPreset(25,5)">25+5</button>
+              <button type="button" class="pomo-preset" data-focus="15" data-break="5" onclick="setPomoPreset(15,5)">15+5</button>
+              <button type="button" class="pomo-preset" data-focus="10" data-break="15" onclick="setPomoPreset(10,15)">10+15</button>
+              <button type="button" class="pomo-preset" data-focus="45" data-break="15" onclick="setPomoPreset(45,15)">45+15</button>
+            </div>
+            <button type="button" class="btn primary" onclick="startPomo()">▶ Start</button>
+          </div>
+          <div class="pomo-active" id="pomoActive" style="display:none">
+            <div class="pomo-phase-label" id="pomoPhaseLabel">Focus</div>
+            <div class="pomo-time lunch-time" id="pomoTime">25:00</div>
+            <div class="progress-wrap pomo-progress">
+              <div class="progress-bar"><div class="progress-fill" id="pomoProgressFill" style="width:100%"></div></div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px">
+              <button type="button" class="btn sm primary" id="btnPomoStart" onclick="startPomo()" style="display:none">▶ Start</button>
+              <button type="button" class="btn sm warn" id="btnPomoPause" onclick="pausePomo()">⏸ Pause</button>
+              <button type="button" class="btn sm" id="btnPomoResume" onclick="resumePomo()" style="display:none">▶ Resume</button>
+              <button type="button" class="btn sm" id="btnPomoSkip" onclick="skipPomo()">Skip</button>
+              <button type="button" class="btn sm" id="btnPomoReset" onclick="resetPomo()">Reset</button>
+            </div>
+          </div>
+        </div>
+
         <!-- ACTIVE TASK -->
         <div class="active-task" id="activeTaskCard">
           <div style="display:flex;align-items:flex-start;justify-content:space-between">
@@ -900,6 +981,14 @@ let state = {
   activeTask: null,   // {id, name, note, cat, start}
   quickTask: null,    // {name, start, mainPaused}
   quickTaskInputVisible: false,
+  // Pomodoro
+  pomoStatus: 'idle',   // idle | focus | break | paused
+  pomoPhase: 'focus',   // focus | break (when paused, which phase to resume)
+  pomoStart: null,     // timestamp when current phase started
+  pomoFocusMs: 25 * 60 * 1000,
+  pomoBreakMs: 5 * 60 * 1000,
+  pomoCurrentPhaseMs: null, // duration of current phase (for resume from paused)
+  pomoPausedRemaining: null, // ms left when paused
 };
 
 let db;
@@ -1078,6 +1167,186 @@ function tick() {
     const qElapsed = Date.now() - state.quickTask.start;
     document.getElementById('quickTaskTime').textContent = fmtMsShort(qElapsed);
   }
+
+  // Pomodoro countdown
+  if (state.pomoStatus === 'focus' || state.pomoStatus === 'break') {
+    const duration = state.pomoCurrentPhaseMs;
+    const elapsed = Date.now() - state.pomoStart;
+    const left = duration - elapsed;
+    if (left <= 0) {
+      if (state.pomoStatus === 'focus') {
+        state.pomoStatus = 'break';
+        state.pomoPhase = 'break';
+        state.pomoStart = Date.now();
+        state.pomoCurrentPhaseMs = state.pomoBreakMs;
+        document.getElementById('pomoCard').classList.remove('focus');
+        document.getElementById('pomoCard').classList.add('break');
+        document.getElementById('pomoPhaseLabel').textContent = 'Break';
+        notify('Time for a break!', 'info');
+        saveState();
+      } else {
+        state.pomoStatus = 'idle';
+        state.pomoPhase = 'focus';
+        state.pomoStart = null;
+        state.pomoCurrentPhaseMs = null;
+      document.getElementById('pomoIdle').style.display = 'block';
+      document.getElementById('pomoActive').style.display = 'none';
+      document.getElementById('pomoCard').classList.remove('break', 'paused');
+      updatePomoPresetButtons();
+        notify('Break over!');
+        saveState();
+      }
+    } else {
+      const m = Math.floor(left / 60000);
+      const s = Math.floor((left % 60000) / 1000);
+      document.getElementById('pomoTime').textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+      const pct = (left / duration) * 100;
+      document.getElementById('pomoProgressFill').style.width = pct + '%';
+    }
+  } else if (state.pomoStatus === 'paused' && state.pomoPausedRemaining != null) {
+    const left = state.pomoPausedRemaining;
+    const m = Math.floor(left / 60000);
+    const s = Math.floor((left % 60000) / 1000);
+    document.getElementById('pomoTime').textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  }
+}
+
+// ─── POMODORO ─────────────────────────────────────────────────────────────────
+function getPomoRemaining() {
+  if (state.pomoStatus !== 'focus' && state.pomoStatus !== 'break') return 0;
+  const duration = state.pomoCurrentPhaseMs;
+  const elapsed = Date.now() - state.pomoStart;
+  return Math.max(0, duration - elapsed);
+}
+
+function setPomoPreset(focusMin, breakMin) {
+  state.pomoFocusMs = focusMin * 60 * 1000;
+  state.pomoBreakMs = breakMin * 60 * 1000;
+  updatePomoPresetButtons();
+  saveState();
+}
+
+function updatePomoPresetButtons() {
+  document.querySelectorAll('.pomo-preset').forEach(btn => {
+    const f = parseInt(btn.dataset.focus, 10);
+    const b = parseInt(btn.dataset.break, 10);
+    btn.classList.toggle('active', state.pomoFocusMs === f * 60000 && state.pomoBreakMs === b * 60000);
+  });
+}
+
+function startPomo() {
+  if (state.pomoStatus === 'focus' || state.pomoStatus === 'break') return;
+  state.pomoStatus = 'focus';
+  state.pomoPhase = 'focus';
+  state.pomoStart = Date.now();
+  state.pomoCurrentPhaseMs = state.pomoFocusMs;
+  state.pomoPausedRemaining = null;
+  document.getElementById('pomoIdle').style.display = 'none';
+  document.getElementById('pomoActive').style.display = 'block';
+  document.getElementById('pomoCard').classList.add('focus');
+  document.getElementById('pomoCard').classList.remove('break', 'paused');
+  document.getElementById('pomoPhaseLabel').textContent = 'Focus';
+  document.getElementById('pomoTime').textContent = `${String(Math.floor(state.pomoFocusMs / 60000)).padStart(2, '0')}:00`;
+  document.getElementById('pomoProgressFill').style.width = '100%';
+  document.getElementById('btnPomoStart').style.display = 'none';
+  document.getElementById('btnPomoPause').style.display = 'inline-flex';
+  document.getElementById('btnPomoResume').style.display = 'none';
+  document.getElementById('btnPomoSkip').disabled = false;
+  document.getElementById('btnPomoReset').disabled = false;
+  saveState();
+}
+
+function pausePomo() {
+  if (state.pomoStatus !== 'focus' && state.pomoStatus !== 'break') return;
+  state.pomoPausedRemaining = getPomoRemaining();
+  state.pomoStatus = 'paused';
+  document.getElementById('pomoCard').classList.add('paused');
+  document.getElementById('btnPomoPause').style.display = 'none';
+  document.getElementById('btnPomoResume').style.display = 'inline-flex';
+  saveState();
+}
+
+function resumePomo() {
+  if (state.pomoStatus !== 'paused') return;
+  state.pomoStatus = state.pomoPhase;
+  state.pomoStart = Date.now();
+  state.pomoCurrentPhaseMs = state.pomoPausedRemaining;
+  state.pomoPausedRemaining = null;
+  document.getElementById('pomoCard').classList.remove('paused');
+  document.getElementById('pomoCard').classList.toggle('focus', state.pomoPhase === 'focus');
+  document.getElementById('pomoCard').classList.toggle('break', state.pomoPhase === 'break');
+  document.getElementById('pomoPhaseLabel').textContent = state.pomoPhase === 'focus' ? 'Focus' : 'Break';
+  document.getElementById('btnPomoPause').style.display = 'inline-flex';
+  document.getElementById('btnPomoResume').style.display = 'none';
+  saveState();
+}
+
+function skipPomo() {
+  if (state.pomoStatus === 'focus' || state.pomoStatus === 'break') {
+    if (state.pomoStatus === 'focus') {
+      state.pomoStatus = 'break';
+      state.pomoPhase = 'break';
+      state.pomoStart = Date.now();
+      state.pomoCurrentPhaseMs = state.pomoBreakMs;
+      document.getElementById('pomoCard').classList.remove('focus');
+      document.getElementById('pomoCard').classList.add('break');
+      document.getElementById('pomoPhaseLabel').textContent = 'Break';
+      document.getElementById('pomoTime').textContent = `${String(Math.floor(state.pomoBreakMs / 60000)).padStart(2, '0')}:00`;
+      document.getElementById('pomoProgressFill').style.width = '100%';
+      notify('Skipped to break', 'info');
+    } else {
+      state.pomoStatus = 'idle';
+      state.pomoPhase = 'focus';
+      state.pomoStart = null;
+      state.pomoCurrentPhaseMs = null;
+      document.getElementById('pomoIdle').style.display = 'block';
+      document.getElementById('pomoActive').style.display = 'none';
+      document.getElementById('pomoCard').classList.remove('break', 'paused');
+      document.getElementById('btnPomoPause').style.display = 'inline-flex';
+      document.getElementById('btnPomoResume').style.display = 'none';
+      notify('Break skipped');
+      saveState();
+    }
+  }
+}
+
+function resetPomo() {
+  state.pomoStatus = 'idle';
+  state.pomoPhase = 'focus';
+  state.pomoStart = null;
+  state.pomoCurrentPhaseMs = null;
+  state.pomoPausedRemaining = null;
+  document.getElementById('pomoIdle').style.display = 'block';
+  document.getElementById('pomoActive').style.display = 'none';
+  document.getElementById('pomoCard').classList.remove('focus', 'break', 'paused');
+  saveState();
+}
+
+function updatePomoUI() {
+  const idle = state.pomoStatus === 'idle';
+  document.getElementById('pomoIdle').style.display = idle ? 'block' : 'none';
+  document.getElementById('pomoActive').style.display = idle ? 'none' : 'block';
+  if (!idle) {
+    document.getElementById('pomoCard').classList.toggle('paused', state.pomoStatus === 'paused');
+    document.getElementById('pomoCard').classList.toggle('focus', state.pomoPhase === 'focus');
+    document.getElementById('pomoCard').classList.toggle('break', state.pomoPhase === 'break');
+    document.getElementById('pomoPhaseLabel').textContent = state.pomoPhase === 'focus' ? 'Focus' : 'Break';
+    const left = state.pomoStatus === 'paused' ? state.pomoPausedRemaining : getPomoRemaining();
+    const m = Math.floor(left / 60000);
+    const s = Math.floor((left % 60000) / 1000);
+    document.getElementById('pomoTime').textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    const phaseDur = state.pomoPhase === 'focus' ? state.pomoFocusMs : state.pomoBreakMs;
+    const pct = state.pomoStatus === 'paused'
+      ? (state.pomoPausedRemaining / phaseDur) * 100
+      : (state.pomoCurrentPhaseMs ? (getPomoRemaining() / state.pomoCurrentPhaseMs) * 100 : 100);
+    document.getElementById('pomoProgressFill').style.width = Math.max(0, pct) + '%';
+    document.getElementById('btnPomoStart').style.display = 'none';
+    document.getElementById('btnPomoPause').style.display = (state.pomoStatus === 'focus' || state.pomoStatus === 'break') ? 'inline-flex' : 'none';
+    document.getElementById('btnPomoResume').style.display = state.pomoStatus === 'paused' ? 'inline-flex' : 'none';
+    document.getElementById('btnPomoSkip').disabled = false;
+    document.getElementById('btnPomoReset').disabled = false;
+  }
+  updatePomoPresetButtons();
 }
 
 // ─── WORK CONTROLS ───────────────────────────────────────────────────────────
@@ -1556,6 +1825,18 @@ async function loadState() {
   if (state.quickTask) {
     updateQuickTaskUI();
   }
+  if (state.pomoStatus === 'focus' || state.pomoStatus === 'break' || state.pomoStatus === 'paused') {
+    if (state.pomoStatus !== 'paused' && state.pomoCurrentPhaseMs == null) {
+      state.pomoCurrentPhaseMs = state.pomoPhase === 'focus' ? state.pomoFocusMs : state.pomoBreakMs;
+    }
+    updatePomoUI();
+    const left = state.pomoStatus === 'paused' ? state.pomoPausedRemaining : getPomoRemaining();
+    const m = Math.floor(left / 60000);
+    const s = Math.floor((left % 60000) / 1000);
+    document.getElementById('pomoTime').textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  } else {
+    updatePomoPresetButtons();
+  }
 }
 
 function updateQuickTaskUI() {
@@ -1894,6 +2175,7 @@ async function init() {
   applySavedTheme();
   updateHeaderDate();
   setInterval(updateHeaderDate, 10000);
+  updatePomoPresetButtons();
 
   // Main tick
   tickInterval = setInterval(tick, 1000);
