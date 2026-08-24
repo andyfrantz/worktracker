@@ -1,5 +1,8 @@
 export { formatAppName } from './format';
 export {
+  calculateWorkedDuration,
+  calculateWorkSegmentDuration,
+  clipIntervalDuration,
   insertSegment,
   segmentEndAt,
   segmentsOverlap,
@@ -10,6 +13,7 @@ export {
   validateTimeline,
 } from './time';
 export type {
+  ReportingPeriod,
   SegmentPatch,
   TimelineValidationCode,
   TimelineValidationError,
