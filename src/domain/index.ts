@@ -1,0 +1,1 @@
+export { formatAppName } from './format';

@@ -1,0 +1,54 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Vite / local overrides
+*.local
+
+# TypeScript
+*.tsbuildinfo
+
+# Test and coverage
+coverage/
+playwright-report/
+test-results/
+blob-report/
+
+# Tooling caches
+.eslintcache
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Legacy Windows / IDE project files
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
