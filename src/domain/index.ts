@@ -1,5 +1,13 @@
 export { formatAppName } from './format';
 export {
+  calculateTargetProgress,
+} from './workday';
+export type {
+  NoTargetProgress,
+  TargetProgress,
+  TargetProgressResult,
+} from './workday';
+export {
   calculateWorkedDuration,
   calculateWorkSegmentDuration,
   clipIntervalDuration,
