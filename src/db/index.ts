@@ -67,3 +67,10 @@ export {
   type StoreName,
 } from './schema';
 export { registerMigrations } from './migrations';
+export {
+  createSegmentId,
+  TimeSegmentRepository,
+  TimelinePersistenceError,
+  WorkdayRepository,
+  type PersistenceErrorDetails,
+} from './repositories';
