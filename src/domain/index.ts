@@ -1,14 +1,27 @@
 export { formatAppName } from './format';
 export {
+  applyInactivityCorrection,
   calculateExpectedFinish,
   calculateExpectedFutureLunchMs,
   calculateTargetProgress,
+  detectSuspiciousInactivity,
+  recoverWorkdayState,
+  DEFAULT_LONG_OPEN_SEGMENT_MS,
+  DEFAULT_SUSPICIOUS_GAP_MS,
 } from './workday';
 export type {
+  ApplyInactivityCorrectionInput,
+  DetectSuspiciousInactivityInput,
   ExpectedFinishInput,
   NoTargetProgress,
+  RecoveryError,
+  RecoveryErrorCode,
+  RecoveryResult,
+  SuspiciousInactivity,
+  SuspiciousInactivityReason,
   TargetProgress,
   TargetProgressResult,
+  WorkdayRecovery,
 } from './workday';
 export {
   changeSegmentKind,
