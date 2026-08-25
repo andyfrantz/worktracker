@@ -1,5 +1,6 @@
-import { db } from '../db';
+import { db, initializeDatabase, seedFirstRunData } from '../db';
 
 export async function initializeApp(): Promise<void> {
-  await db.open();
+  await initializeDatabase(db);
+  await seedFirstRunData(db);
 }

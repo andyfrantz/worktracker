@@ -69,8 +69,17 @@ export {
 export { registerMigrations } from './migrations';
 export {
   createSegmentId,
+  ContextRepository,
   TimeSegmentRepository,
   TimelinePersistenceError,
   WorkdayRepository,
   type PersistenceErrorDetails,
 } from './repositories';
+export {
+  DEFAULT_WORK_CONTEXT,
+  DEFAULT_WORK_CONTEXT_ID,
+  DEFAULT_WORK_LUNCH_MINUTES,
+  DEFAULT_WORK_TARGET_MINUTES,
+  isFreshInstall,
+  seedFirstRunData,
+} from './seed';
