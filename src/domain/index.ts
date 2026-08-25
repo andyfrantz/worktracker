@@ -1,9 +1,15 @@
-export { formatAppName } from './format';
+export {
+  formatAppName,
+  formatClockTime,
+  formatDuration,
+  formatWorkdayStatus,
+} from './format';
 export {
   applyInactivityCorrection,
   calculateExpectedFinish,
   calculateExpectedFutureLunchMs,
   calculateTargetProgress,
+  calculateWorkdaySummary,
   detectSuspiciousInactivity,
   recoverWorkdayState,
   DEFAULT_LONG_OPEN_SEGMENT_MS,
@@ -22,6 +28,9 @@ export type {
   TargetProgress,
   TargetProgressResult,
   WorkdayRecovery,
+  WorkdayStatus,
+  WorkdaySummary,
+  WorkdaySummaryInput,
 } from './workday';
 export {
   changeSegmentKind,
@@ -39,6 +48,7 @@ export {
   calculateWorkedDuration,
   calculateWorkSegmentDuration,
   clipIntervalDuration,
+  localDayPeriod,
   insertSegment,
   segmentEndAt,
   segmentsOverlap,

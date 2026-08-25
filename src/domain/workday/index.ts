@@ -1,3 +1,5 @@
+export { calculateWorkdaySummary } from './summary';
+export type { WorkdayStatus, WorkdaySummary, WorkdaySummaryInput } from './summary';
 export { calculateExpectedFinish, calculateExpectedFutureLunchMs } from './expected-finish';
 export type { ExpectedFinishInput } from './expected-finish';
 export {

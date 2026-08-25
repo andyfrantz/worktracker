@@ -14,6 +14,7 @@ export {
   calculateWorkedDuration,
   calculateWorkSegmentDuration,
 } from './calculations';
+export { localDayPeriod } from './day-boundaries';
 export { segmentEndAt, segmentsOverlap } from './interval';
 export { clipIntervalDuration, type ReportingPeriod } from './period';
 export {
