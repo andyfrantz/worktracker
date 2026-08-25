@@ -1,8 +1,11 @@
 export { formatAppName } from './format';
 export {
+  calculateExpectedFinish,
+  calculateExpectedFutureLunchMs,
   calculateTargetProgress,
 } from './workday';
 export type {
+  ExpectedFinishInput,
   NoTargetProgress,
   TargetProgress,
   TargetProgressResult,
