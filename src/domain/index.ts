@@ -11,6 +11,12 @@ export type {
   TargetProgressResult,
 } from './workday';
 export {
+  findOpenSegment,
+  pauseWork,
+  resumeWork,
+  startLunch,
+  startWork,
+  stopWorkday,
   calculateWorkedDuration,
   calculateWorkSegmentDuration,
   clipIntervalDuration,
@@ -26,6 +32,11 @@ export {
 export type {
   ReportingPeriod,
   SegmentPatch,
+  StartWorkInput,
+  TransitionError,
+  TransitionErrorCode,
+  TransitionInput,
+  TransitionResult,
   TimelineValidationCode,
   TimelineValidationError,
   TimelineValidationResult,

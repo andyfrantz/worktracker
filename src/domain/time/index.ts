@@ -5,6 +5,19 @@ export {
 export { segmentEndAt, segmentsOverlap } from './interval';
 export { clipIntervalDuration, type ReportingPeriod } from './period';
 export {
+  findOpenSegment,
+  pauseWork,
+  resumeWork,
+  startLunch,
+  startWork,
+  stopWorkday,
+  type StartWorkInput,
+  type TransitionError,
+  type TransitionErrorCode,
+  type TransitionInput,
+  type TransitionResult,
+} from './transitions';
+export {
   insertSegment,
   updateSegment,
   validateSegment,
