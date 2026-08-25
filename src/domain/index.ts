@@ -5,6 +5,10 @@ export {
   formatWorkdayStatus,
 } from './format';
 export {
+  HISTORICAL_START_PRESET_MINUTES,
+  parseTimeInputValue,
+  startedAtFromLocalClock,
+  startedAtMinutesAgo,
   applyInactivityCorrection,
   calculateExpectedFinish,
   calculateExpectedFutureLunchMs,
@@ -18,6 +22,7 @@ export {
 export type {
   ApplyInactivityCorrectionInput,
   DetectSuspiciousInactivityInput,
+  HistoricalStartPresetMinutes,
   ExpectedFinishInput,
   NoTargetProgress,
   RecoveryError,

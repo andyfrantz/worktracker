@@ -1,2 +1,8 @@
 export { initializeApp } from './app';
-export { loadWorkdaySummary, runWorkdayAction, type WorkdayAction } from './workday';
+export {
+  loadWorkdaySummary,
+  runWorkdayAction,
+  startWorkAt,
+  startWorkNow,
+  type WorkdayAction,
+} from './workday';

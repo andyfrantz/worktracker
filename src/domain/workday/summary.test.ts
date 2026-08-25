@@ -11,8 +11,9 @@ const CONTEXT: Context = {
   archived: false,
 };
 
-const DAY_START = Date.parse('2026-08-24T00:00:00+02:00');
-const NOW = DAY_START + 10 * 60 * 60 * 1_000;
+const DAY_START = new Date(2026, 7, 24, 0, 0, 0, 0).getTime();
+const NOW = new Date(2026, 7, 24, 10, 0, 0, 0).getTime();
+const EIGHT_AM = new Date(2026, 7, 24, 8, 0, 0, 0).getTime();
 
 function workSegment(startedAt: number, endedAt: number | null): TimeSegment {
   return {
@@ -43,7 +44,7 @@ describe('calculateWorkdaySummary', () => {
     const summary = calculateWorkdaySummary({
       now: NOW,
       context: CONTEXT,
-      segments: [workSegment(DAY_START + 8 * 60 * 60 * 1_000, null)],
+      segments: [workSegment(EIGHT_AM, null)],
     });
 
     expect(summary.status).toBe('working');
@@ -54,13 +55,25 @@ describe('calculateWorkdaySummary', () => {
     const summary = calculateWorkdaySummary({
       now: NOW,
       context: CONTEXT,
-      segments: [workSegment(DAY_START + 8 * 60 * 60 * 1_000, null)],
+      segments: [workSegment(EIGHT_AM, null)],
     });
 
     expect(summary.targetProgress.hasTarget).toBe(true);
     if (summary.targetProgress.hasTarget) {
       expect(summary.targetProgress.remainingMs).toBe(6 * 60 * 60 * 1_000);
     }
-    expect(summary.expectedFinish).toBe(DAY_START + 16.5 * 60 * 60 * 1_000);
+    expect(summary.expectedFinish).toBe(new Date(2026, 7, 24, 16, 30, 0, 0).getTime());
+  });
+
+  it('reflects historical start time in worked duration and expected finish', () => {
+    const startedAt = NOW - 3 * 60 * 60 * 1_000;
+    const summary = calculateWorkdaySummary({
+      now: NOW,
+      context: CONTEXT,
+      segments: [workSegment(startedAt, null)],
+    });
+
+    expect(summary.workedMs).toBe(3 * 60 * 60 * 1_000);
+    expect(summary.expectedFinish).toBe(new Date(2026, 7, 24, 15, 30, 0, 0).getTime());
   });
 });

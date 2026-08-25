@@ -1,3 +1,10 @@
+export {
+  HISTORICAL_START_PRESET_MINUTES,
+  parseTimeInputValue,
+  startedAtFromLocalClock,
+  startedAtMinutesAgo,
+} from './historical-start';
+export type { HistoricalStartPresetMinutes } from './historical-start';
 export { calculateWorkdaySummary } from './summary';
 export type { WorkdayStatus, WorkdaySummary, WorkdaySummaryInput } from './summary';
 export { calculateExpectedFinish, calculateExpectedFutureLunchMs } from './expected-finish';

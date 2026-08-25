@@ -4,15 +4,25 @@
     formatClockTime,
     formatDuration,
     formatWorkdayStatus,
+    HISTORICAL_START_PRESET_MINUTES,
+    parseTimeInputValue,
+    startedAtMinutesAgo,
     type WorkdaySummary,
   } from '../domain';
-  import { initializeApp, loadWorkdaySummary, runWorkdayAction, type WorkdayAction } from '../services';
+  import {
+    initializeApp,
+    loadWorkdaySummary,
+    runWorkdayAction,
+    startWorkAt,
+    type WorkdayAction,
+  } from '../services';
 
   let ready = $state(false);
   let loading = $state(true);
   let error = $state<string | null>(null);
   let summary = $state<WorkdaySummary | null>(null);
   let actionPending = $state(false);
+  let exactStartTime = $state('');
 
   let refreshTimer: ReturnType<typeof setInterval> | undefined;
 
@@ -32,6 +42,35 @@
     } finally {
       actionPending = false;
     }
+  }
+
+  async function handleStartAt(startedAt: number) {
+    actionPending = true;
+    error = null;
+
+    try {
+      await startWorkAt(startedAt);
+      exactStartTime = '';
+      await refresh();
+    } catch (caught) {
+      error = caught instanceof Error ? caught.message : 'Something went wrong.';
+    } finally {
+      actionPending = false;
+    }
+  }
+
+  async function handlePresetStart(minutesAgo: number) {
+    await handleStartAt(startedAtMinutesAgo(Date.now(), minutesAgo));
+  }
+
+  async function handleExactStart() {
+    const startedAt = parseTimeInputValue(Date.now(), exactStartTime);
+    if (startedAt === null) {
+      error = 'Choose a time earlier today.';
+      return;
+    }
+
+    await handleStartAt(startedAt);
   }
 
   const statusLabel = $derived(summary ? formatWorkdayStatus(summary.status) : '');
@@ -154,25 +193,65 @@
     <section class="actions" aria-label="Workday controls">
       {#if summary.status === 'idle'}
         <button type="button" disabled={actionPending} onclick={() => handleAction('start')}>
-          Start
+          Start now
         </button>
+
+        <div class="started-earlier" aria-labelledby="started-earlier-heading">
+          <p id="started-earlier-heading" class="started-earlier-label">Started earlier</p>
+          <div class="preset-actions">
+            {#each HISTORICAL_START_PRESET_MINUTES as minutesAgo}
+              <button
+                type="button"
+                class="secondary preset"
+                disabled={actionPending}
+                aria-label={`Start work from ${minutesAgo} minutes ago`}
+                onclick={() => handlePresetStart(minutesAgo)}
+              >
+                −{minutesAgo}m
+              </button>
+            {/each}
+          </div>
+          <div class="exact-start">
+            <label for="exact-start-time">Exact time today</label>
+            <div class="exact-start-row">
+              <input
+                id="exact-start-time"
+                type="time"
+                bind:value={exactStartTime}
+                disabled={actionPending}
+              />
+              <button
+                type="button"
+                class="secondary"
+                disabled={actionPending || exactStartTime === ''}
+                onclick={handleExactStart}
+              >
+                Start at time
+              </button>
+            </div>
+          </div>
+        </div>
       {:else if summary.status === 'working'}
-        <button type="button" disabled={actionPending} onclick={() => handleAction('pause')}>
-          Pause
-        </button>
-        <button type="button" disabled={actionPending} onclick={() => handleAction('lunch')}>
-          Lunch
-        </button>
-        <button type="button" class="secondary" disabled={actionPending} onclick={() => handleAction('stop')}>
-          Stop
-        </button>
+        <div class="active-actions">
+          <button type="button" disabled={actionPending} onclick={() => handleAction('pause')}>
+            Pause
+          </button>
+          <button type="button" disabled={actionPending} onclick={() => handleAction('lunch')}>
+            Lunch
+          </button>
+          <button type="button" class="secondary" disabled={actionPending} onclick={() => handleAction('stop')}>
+            Stop
+          </button>
+        </div>
       {:else}
-        <button type="button" disabled={actionPending} onclick={() => handleAction('resume')}>
-          Resume
-        </button>
-        <button type="button" class="secondary" disabled={actionPending} onclick={() => handleAction('stop')}>
-          Stop
-        </button>
+        <div class="active-actions">
+          <button type="button" disabled={actionPending} onclick={() => handleAction('resume')}>
+            Resume
+          </button>
+          <button type="button" class="secondary" disabled={actionPending} onclick={() => handleAction('stop')}>
+            Stop
+          </button>
+        </div>
       {/if}
     </section>
 
@@ -287,8 +366,56 @@
 
   .actions {
     display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .started-earlier {
+    display: grid;
+    gap: 0.75rem;
+    padding-top: 0.25rem;
+  }
+
+  .started-earlier-label {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #4a5568;
+  }
+
+  .preset-actions,
+  .exact-start-row {
+    display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
+  }
+
+  .exact-start {
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .exact-start label {
+    font-size: 0.875rem;
+    color: #4a5568;
+  }
+
+  input[type='time'] {
+    min-height: 2.75rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #cbd5e0;
+    border-radius: 0.75rem;
+    font: inherit;
+    background: #ffffff;
+  }
+
+  input[type='time']:focus-visible {
+    outline: 3px solid #63b3ed;
+    outline-offset: 2px;
+  }
+
+  button.preset {
+    min-width: 4.5rem;
   }
 
   button {
@@ -323,6 +450,12 @@
 
   button.secondary:hover:not(:disabled) {
     background: #2d3748;
+  }
+
+  .active-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
   }
 
   .loading,
