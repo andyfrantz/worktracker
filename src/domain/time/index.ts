@@ -1,4 +1,16 @@
 export {
+  changeSegmentKind,
+  deleteSegment,
+  editSegmentBoundaries,
+  insertForgottenSegment,
+  mergeAdjacentSegments,
+  splitSegment,
+  type CorrectionError,
+  type CorrectionErrorCode,
+  type CorrectionResult,
+  type SplitSegmentInput,
+} from './corrections';
+export {
   calculateWorkedDuration,
   calculateWorkSegmentDuration,
 } from './calculations';

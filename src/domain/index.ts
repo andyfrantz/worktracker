@@ -11,9 +11,15 @@ export type {
   TargetProgressResult,
 } from './workday';
 export {
+  changeSegmentKind,
+  deleteSegment,
+  editSegmentBoundaries,
   findOpenSegment,
+  insertForgottenSegment,
+  mergeAdjacentSegments,
   pauseWork,
   resumeWork,
+  splitSegment,
   startLunch,
   startWork,
   stopWorkday,
@@ -30,8 +36,12 @@ export {
   validateTimeline,
 } from './time';
 export type {
+  CorrectionError,
+  CorrectionErrorCode,
+  CorrectionResult,
   ReportingPeriod,
   SegmentPatch,
+  SplitSegmentInput,
   StartWorkInput,
   TransitionError,
   TransitionErrorCode,
